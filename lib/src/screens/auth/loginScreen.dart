@@ -3,6 +3,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:wecode/src/screens/auth/forgotpassScreen.dart';
 import 'package:wecode/src/screens/auth/registerScreen.dart';
+import 'package:wecode/src/screens/jobs_screen/jobs_screen.dart';
 import 'package:wecode/widget/costume_button.dart';
 import 'package:wecode/widget/costume_textField.dart';
 
@@ -55,7 +56,8 @@ class LoginScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (BuildContext context) => ForgotPassScreen(),
+                            builder: (BuildContext context) =>
+                                ForgotPassScreen(),
                           ),
                         );
                       },
@@ -135,6 +137,14 @@ class LoginScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const JobsScreen(),
+            )),
+            child: const Text('Jobs'),
       ),
     );
   }
