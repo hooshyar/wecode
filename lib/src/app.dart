@@ -10,6 +10,7 @@ class WeCodeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
         title: 'WeCode',
         theme: ThemeData(
           // brightness: Brightness.dark,

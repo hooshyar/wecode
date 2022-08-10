@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:wecode/src/screens/auth/forgotpassScreen.dart';
-import 'package:wecode/src/screens/auth/registerScreen.dart';
+import 'package:wecode/src/screens/auth/loginScreen.dart';
 import 'package:wecode/widget/costume_button.dart';
 import 'package:wecode/widget/costume_textField.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatefulWidget {
+  RegisterScreen({Key? key}) : super(key: key);
 
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  final TextEditingController userNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +26,13 @@ class LoginScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Image.network(
-                'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.freepik.com%2Ffree-vector%2Fmobile-login-concept-illustration_114360-83.jpg&f=1&nofb=1'),
+                'https://media.istockphoto.com/vectors/register-account-submit-access-login-password-username-internet-vector-id1281150061?k=20&m=1281150061&s=170667a&w=0&h=r2JoluPHXUIdKb2cNnvcwFg7BIIf-SrBDFdoU0fZBnc='),
             Align(
               alignment: Alignment(-1, -1),
               child: Padding(
                 padding: const EdgeInsets.only(left: 15.0),
                 child: Text(
-                  'Login',
+                  'Register',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
                 ),
               ),
@@ -39,6 +43,11 @@ class LoginScreen extends StatelessWidget {
                   child: Column(
                 children: [
                   CostumeTextField(
+                    hint: 'User Name',
+                    control: userNameController,
+                    icon: Icon(Icons.person),
+                  ),
+                  CostumeTextField(
                     hint: 'Email',
                     control: emailController,
                     icon: Icon(Icons.alternate_email),
@@ -48,29 +57,10 @@ class LoginScreen extends StatelessWidget {
                     control: passwordController,
                     icon: Icon(Icons.lock_outline),
                   ),
-                  Align(
-                    alignment: Alignment(1, 1),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => ForgotPassScreen(),
-                          ),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: Text(
-                          'Forgot Password ?',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 42, 146, 231),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ),
+                  CostumeTextField(
+                    hint: 'Phone Number',
+                    control: phoneNumberController,
+                    icon: Icon(Icons.phone),
                   ),
                 ],
               )),
@@ -82,22 +72,8 @@ class LoginScreen extends StatelessWidget {
               onPressedd: () {},
               color: Color.fromARGB(255, 42, 146, 231),
               text: Text(
-                'Login',
+                'Register',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            CostumeButton(
-              onPressedd: () {},
-              color: Color.fromARGB(255, 211, 211, 211),
-              text: Text(
-                'Login with Google',
-                style: TextStyle(
-                    fontWeight: FontWeight.w200,
-                    fontSize: 20,
-                    color: Color.fromARGB(255, 68, 68, 68)),
               ),
             ),
             Row(
@@ -106,7 +82,7 @@ class LoginScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0),
                   child: Text(
-                    "Don't Have An Account ? ",
+                    "Already Have An Account ? ",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                 ),
@@ -115,14 +91,14 @@ class LoginScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (BuildContext context) => RegisterScreen(),
+                        builder: (BuildContext context) => LoginScreen(),
                       ),
                     );
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(top: 20.0),
                     child: Text(
-                      'Register',
+                      'Login',
                       style: TextStyle(
                         color: Color.fromARGB(255, 21, 116, 224),
                         fontWeight: FontWeight.bold,
