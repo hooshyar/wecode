@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class CostumeButton extends StatelessWidget {
   const CostumeButton({
     Key? key,
@@ -8,7 +9,7 @@ class CostumeButton extends StatelessWidget {
   }) : super(key: key);
 
   final Text text;
-  final Function onPressedd;
+  final onPressedd;
   final Color color;
 
   @override
@@ -17,7 +18,7 @@ class CostumeButton extends StatelessWidget {
       width: 350,
       height: 50,
       child: ElevatedButton(
-        onPressed: (){},
+        onPressed: onPressedd,
         style: ElevatedButton.styleFrom(
           primary: color,
           shape:

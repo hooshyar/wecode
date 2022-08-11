@@ -92,7 +92,9 @@ class LoginScreen extends StatelessWidget {
               height: 15,
             ),
             CostumeButton(
-              onPressedd: () {},
+              onPressedd: () {
+                debugPrint('Login');
+              },
               color: Color.fromARGB(255, 211, 211, 211),
               text: Text(
                 'Login with Google',
@@ -144,7 +146,7 @@ class LoginScreen extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) => const JobsScreen(),
             )),
-            child: const Text('Jobs'),
+        child: const Text('Jobs'),
       ),
     );
   }
