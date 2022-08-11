@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:wecode/src/screens/auth/forgotpassScreen.dart';
 import 'package:wecode/src/screens/auth/registerScreen.dart';
 import 'package:wecode/src/screens/jobs_screen/jobs_screen.dart';
+import 'package:wecode/src/services/auth_service.dart';
 import 'package:wecode/widget/costume_button.dart';
 import 'package:wecode/widget/costume_textField.dart';
 
@@ -12,6 +13,8 @@ class LoginScreen extends StatelessWidget {
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +84,11 @@ class LoginScreen extends StatelessWidget {
               height: 15,
             ),
             CostumeButton(
-              onPressedd: () {},
+              onPressedd: () async {
+                await authService.signInWithEmailAndPassword(
+                    email: emailController.text.trim(),
+                    password: passwordController.text);
+              },
               color: Color.fromARGB(255, 42, 146, 231),
               text: Text(
                 'Login',

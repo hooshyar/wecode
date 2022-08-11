@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wecode/src/screens/auth/create_profile_screen.dart';
 import 'package:wecode/src/screens/screenHandler.dart';
 
 class WeCodeApp extends StatelessWidget {
@@ -9,8 +11,9 @@ class WeCodeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
+    //change to Getmaterial app to use the get package
+    return GetMaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'WeCode',
         theme: ThemeData(
           // brightness: Brightness.dark,

@@ -27,7 +27,7 @@ class _JobsScreenState extends State<JobsScreen> {
             // sections screen column > (header) container.
             Container(
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-              color: Colors.yellow ,
+              color: Colors.yellow,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -81,8 +81,8 @@ class _JobsScreenState extends State<JobsScreen> {
                         child: TextFormField(
                           controller: searchController,
                           style: const TextStyle(fontSize: 20),
-                          decoration:
-                              const InputDecoration(border: InputBorder.none, hintText: 'Search...'),
+                          decoration: const InputDecoration(
+                              border: InputBorder.none, hintText: 'Search...'),
                         ),
                       ),
                     ),
@@ -92,6 +92,8 @@ class _JobsScreenState extends State<JobsScreen> {
                         onPressed: () {
                           debugPrint(
                               'searchController= ${searchController.text}'); // #temporary
+                          // to clear the text input form
+                          searchController.clear();
                         },
                         icon: const Icon(Icons.close),
                       ),
@@ -113,7 +115,7 @@ class _JobsScreenState extends State<JobsScreen> {
                   // debugPrint(
                   //     '1. from itembuilder ValueChanger.hasNotificationIcon= ${ValueChanger.hasNotification}');
                   return jobVacanciesContainer(
-                    theRecord: {index+1}.toString(),
+                    theRecord: {index + 1}.toString(),
                     companyName: 'The Company',
                     companyJobPosition: 'Junior developer',
                     companyJobType: 'Full Time',
@@ -159,7 +161,6 @@ class _JobsScreenState extends State<JobsScreen> {
     required String companyJobType,
     required int companyJobSalary,
     required bool favIconBool,
-    
   }) {
     IconData favIcon = Icons.favorite_outline;
     IconData favIconFill = Icons.favorite;
@@ -175,8 +176,10 @@ class _JobsScreenState extends State<JobsScreen> {
               child: IconButton(
                   onPressed: () {
                     setState(() {
-                      ButtonValueChanger.favRecord = !ButtonValueChanger.favRecord;
-                      debugPrint('favIcon in record: $theRecord clicked, favIconBool= $favIconBool');
+                      ButtonValueChanger.favRecord =
+                          !ButtonValueChanger.favRecord;
+                      debugPrint(
+                          'favIcon in record: $theRecord clicked, favIconBool= $favIconBool');
                     });
                   },
                   icon: Icon(favIconBool ? favIconFill : favIcon)),
@@ -232,11 +235,14 @@ class _JobsScreenState extends State<JobsScreen> {
           });
         }
         debugPrint('notifications icon clicked');
-        debugPrint('ValueChanger.hasNotification= ${ButtonValueChanger.hasNotification.toString()}');
+        debugPrint(
+            'ValueChanger.hasNotification= ${ButtonValueChanger.hasNotification.toString()}');
         // TODO: open notification list here
       },
       icon: Icon(
-          ButtonValueChanger.hasNotification ? hasNotificationIcon : notificationIcon,
+          ButtonValueChanger.hasNotification
+              ? hasNotificationIcon
+              : notificationIcon,
           size: 30),
     );
   }
@@ -250,4 +256,3 @@ class _JobsScreenState extends State<JobsScreen> {
         'hasNotificationFunction() executed •• ValueChanger.hasNotification= ${ButtonValueChanger.hasNotification.toString()}');
   }
 }
-
