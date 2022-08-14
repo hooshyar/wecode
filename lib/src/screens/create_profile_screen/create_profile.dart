@@ -1,18 +1,33 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:wecode/src/models/weCodeUser_data_model.dart';
+import 'package:wecode/src/screens/jobs_screen/jobs_screen.dart';
 import 'package:wecode/widget/create_profile_textfield.dart';
 
 class CreateProfileScreen extends StatefulWidget {
-  const CreateProfileScreen({Key? key}) : super(key: key);
+  const CreateProfileScreen(
+      {Key? key, required this.weCodeUser, required this.isUpdate})
+      : super(key: key);
+
+  final WeCodeUser weCodeUser;
+  final bool isUpdate;
 
   @override
   State<CreateProfileScreen> createState() => _CreateProfileScreenState();
 }
 
 class _CreateProfileScreenState extends State<CreateProfileScreen> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController surNameController = TextEditingController();
+  TextEditingController githubController = TextEditingController();
+  TextEditingController linkedInController = TextEditingController();
+  TextEditingController whatsAppController = TextEditingController();
+
   //* put first value of the item list in dropdownValue.
-  String dropdownValue = 'One';
+  String dropdownValue = 'Full Stack Flutter Developer';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +54,32 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
             width: 75,
             margin: EdgeInsets.fromLTRB(0, 5, 20, 0),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                WeCodeUser newWecodeUser = WeCodeUser(
+                  name: nameController.text.isEmpty
+                      ? widget.weCodeUser.name
+                      : nameController.text,
+                  createdAt: DateTime.now(),
+                  uid: widget.weCodeUser.uid,
+                  email: widget.weCodeUser.email,
+                  github: githubController.text,
+                  linkedin: linkedInController.text,
+                  phone: whatsAppController.text.isEmpty ||
+                          whatsAppController.text.length < 8
+                      ? widget.weCodeUser.phone
+                      : whatsAppController.text,
+                  skills: [dropdownValue],
+                );
+
+                //TODO: update the current user with the new data
+                await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(widget.weCodeUser.uid)
+                    .update(
+                      newWecodeUser.toMap(),
+                    )
+                    .then((value) => Get.to(JobsScreen()));
+              },
               style: ElevatedButton.styleFrom(
                   fixedSize: Size(50, 0),
                   primary: Color.fromARGB(255, 70, 155, 74),
@@ -59,6 +99,8 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(widget.weCodeUser.email),
+            Text(widget.weCodeUser.uid),
             SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -128,7 +170,9 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 21),
               ),
             ),
-            CustomTextFieldForm(),
+            CustomTextFieldForm(
+              controller: nameController,
+            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(25, 25, 0, 15),
               child: Text(
@@ -136,7 +180,9 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 21),
               ),
             ),
-            CustomTextFieldForm(),
+            CustomTextFieldForm(
+              controller: surNameController,
+            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(25, 25, 0, 10),
               child: Text(
@@ -168,8 +214,12 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                     dropdownValue = newValue!;
                   });
                 },
-                items: <String>['One', 'Two', 'Free', 'Four']
-                    .map<DropdownMenuItem<String>>((String value) {
+                items: <String>[
+                  'Full Stack Flutter Developer',
+                  'Front end Web Developer',
+                  'Data Engineer',
+                  'Ui/Ux designer'
+                ].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -184,7 +234,9 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 21),
               ),
             ),
-            CustomTextFieldForm(),
+            CustomTextFieldForm(
+              controller: githubController,
+            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(25, 25, 0, 15),
               child: Text(
@@ -192,7 +244,9 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 21),
               ),
             ),
-            CustomTextFieldForm(),
+            CustomTextFieldForm(
+              controller: linkedInController,
+            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(25, 25, 0, 15),
               child: Text(
@@ -200,42 +254,48 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 21),
               ),
             ),
-            CustomTextFieldForm(),
+            CustomTextFieldForm(
+              controller: whatsAppController,
+            ),
             SizedBox(
               height: 40,
             ),
-            Container(
-              margin: EdgeInsets.only(left: 30),
-              width: 325,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: Text(
-                  'Change your password',
-                  style: TextStyle(),
-                ),
-                style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(255, 18, 18, 18)),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(115, 25, 0, 75),
-              width: 165,
-              height: 50,
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(50)),
-              child: ElevatedButton(
-                onPressed: () {},
-                child: Text(
-                  'Delete your account',
-                  style:
-                      TextStyle(color: Colors.red, fontWeight: FontWeight.w600),
-                ),
-                style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  primary: Color.fromARGB(255, 245, 244, 244),
-                ),
-              ),
-            ),
+            widget.isUpdate != true
+                ? Container()
+                : Container(
+                    margin: EdgeInsets.only(left: 30),
+                    width: 325,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Change your password',
+                        style: TextStyle(),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(255, 18, 18, 18)),
+                    ),
+                  ),
+            widget.isUpdate != true
+                ? Container()
+                : Container(
+                    margin: EdgeInsets.fromLTRB(115, 25, 0, 75),
+                    width: 165,
+                    height: 50,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(50)),
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Delete your account',
+                        style: TextStyle(
+                            color: Colors.red, fontWeight: FontWeight.w600),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        primary: Color.fromARGB(255, 245, 244, 244),
+                      ),
+                    ),
+                  ),
           ],
         ),
       ),

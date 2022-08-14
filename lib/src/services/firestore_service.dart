@@ -21,4 +21,6 @@ class FireStoreService {
     await _firestore.collection('users').doc(user.uid).set(weCodeUser.toMap());
     return weCodeUser;
   }
+
+  updateUserInformationFromCreateProfile({required WeCodeUser weCodeUser}) {}
 }
