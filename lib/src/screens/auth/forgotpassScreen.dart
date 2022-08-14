@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wecode/src/screens/auth/loginScreen.dart';
+import 'package:wecode/src/services/auth_service.dart';
 import 'package:wecode/widget/costume_button.dart';
 
 import '../../../widget/costume_textField.dart';
@@ -13,7 +14,7 @@ class ForgotPassScreen extends StatefulWidget {
 
 class _ForgotPassScreenState extends State<ForgotPassScreen> {
   final TextEditingController emailController = TextEditingController();
-
+  AuthService auth = AuthService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,14 +88,16 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
               height: 15,
             ),
             CostumeButton(
-               onPressedd: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => LoginScreen(),
-              ),
-            );
-          },
+              onPressedd: () {
+                auth.forgetPassword(email: emailController.text);
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => LoginScreen(),
+                  ),
+                );
+              },
               color: Color.fromARGB(255, 42, 146, 231),
               text: Text(
                 'Submit',

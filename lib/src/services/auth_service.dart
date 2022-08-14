@@ -7,11 +7,13 @@ import 'package:get/get.dart';
 class AuthService {
 //TODO: write methods to authenticate user using firebase auth
 
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   Future<UserCredential?> createUserWithEmailAndPassword(
       {required String email, required String password}) async {
     UserCredential? credential;
     try {
-      credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      credential = await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -34,8 +36,8 @@ class AuthService {
     UserCredential? credential;
 
     try {
-      credential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      credential = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         Get.snackbar('Error', 'No user found for that email.');
@@ -46,5 +48,16 @@ class AuthService {
       }
     }
     return credential;
+  }
+
+  forgetPassword({required String email}) async {
+    try {
+      await auth.sendPasswordResetEmail(email: email).catchError((err) {
+        Get.snackbar('error', '$err');
+      });
+    } on FirebaseAuthException catch (e) {
+      Get.snackbar('firebase error ', e.message.toString());
+    }
+    // await auth.verifyPasswordResetCode(code);
   }
 }
