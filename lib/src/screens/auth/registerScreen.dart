@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:wecode/src/common/widgets/loading_indicator.dart';
 import 'package:wecode/src/models/weCodeUser_data_model.dart';
+import 'package:wecode/src/providers/user_provider.dart';
 
-import 'package:wecode/src/screens/auth/loginScreen.dart';
+import 'package:wecode/src/screens/auth/login_screen.dart';
 import 'package:wecode/src/screens/create_profile_screen/create_profile.dart';
 import 'package:wecode/src/services/auth_service.dart';
 import 'package:wecode/src/services/firestore_service.dart';
@@ -105,13 +107,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     userName: userNameController.text,
                                     phoneNumber: phoneNumberController.text)
                                 .then((weCodeUser) {
+                              // Provider.of<UserProvider>(context, listen: false)
+                              //     .setWeCodeUser(weCodeUser);
+
+                              // basically the same as above
+                              context
+                                  .read<UserProvider>()
+                                  .setWeCodeUser(weCodeUser);
+
                               setState(() {
                                 isLoading = false;
                               });
+
                               Get.to(() => CreateProfileScreen(
-                                    weCodeUser: weCodeUser,
                                     isUpdate: false,
                                   ));
+                            });
+                            setState(() {
+                              isLoading = false;
                             });
                           }
 

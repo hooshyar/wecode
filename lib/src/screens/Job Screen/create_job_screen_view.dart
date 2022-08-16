@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class JobScreenPage extends StatefulWidget {
-  JobScreenPage({Key? key}) : super(key: key);
+class CreateJobScreen extends StatefulWidget {
+  CreateJobScreen({Key? key}) : super(key: key);
 
   @override
-  State<JobScreenPage> createState() => deferent();
+  State<CreateJobScreen> createState() => deferent();
 }
 
-class deferent extends State<JobScreenPage> {
+class deferent extends State<CreateJobScreen> {
   List<String> citysList = [
     'Erbil',
     'Duhok',
@@ -53,10 +53,11 @@ class deferent extends State<JobScreenPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
-                margin: EdgeInsets.only(top: 40, bottom: 20),
-                child: Image.asset('assets/images/job.png'),
-              ),
+              // to fix asset image error
+              // Container(
+              //   margin: EdgeInsets.only(top: 40, bottom: 20),
+              //   child: Image.asset('assets/images/job.png'),
+              // ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,

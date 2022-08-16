@@ -3,16 +3,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:wecode/src/models/weCodeUser_data_model.dart';
+import 'package:wecode/src/providers/user_provider.dart';
 import 'package:wecode/src/screens/jobs_screen/jobs_screen.dart';
 import 'package:wecode/widget/create_profile_textfield.dart';
 
 class CreateProfileScreen extends StatefulWidget {
-  const CreateProfileScreen(
-      {Key? key, required this.weCodeUser, required this.isUpdate})
+  const CreateProfileScreen({Key? key, required this.isUpdate})
       : super(key: key);
 
-  final WeCodeUser weCodeUser;
   final bool isUpdate;
 
   @override
@@ -30,6 +30,8 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
   String dropdownValue = 'Full Stack Flutter Developer';
   @override
   Widget build(BuildContext context) {
+    WeCodeUser weCodeUser = context.watch<UserProvider>().weCodeUser!;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -57,16 +59,16 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
               onPressed: () async {
                 WeCodeUser newWecodeUser = WeCodeUser(
                   name: nameController.text.isEmpty
-                      ? widget.weCodeUser.name
+                      ? weCodeUser.name
                       : nameController.text,
                   createdAt: DateTime.now(),
-                  uid: widget.weCodeUser.uid,
-                  email: widget.weCodeUser.email,
+                  uid: weCodeUser.uid,
+                  email: weCodeUser.email,
                   github: githubController.text,
                   linkedin: linkedInController.text,
                   phone: whatsAppController.text.isEmpty ||
                           whatsAppController.text.length < 8
-                      ? widget.weCodeUser.phone
+                      ? weCodeUser.phone
                       : whatsAppController.text,
                   skills: [dropdownValue],
                 );
@@ -74,7 +76,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                 //TODO: update the current user with the new data
                 await FirebaseFirestore.instance
                     .collection('users')
-                    .doc(widget.weCodeUser.uid)
+                    .doc(weCodeUser.uid)
                     .update(
                       newWecodeUser.toMap(),
                     )
@@ -99,8 +101,8 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.weCodeUser.email),
-            Text(widget.weCodeUser.uid),
+            Text(weCodeUser.email),
+            Text(weCodeUser.uid),
             SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

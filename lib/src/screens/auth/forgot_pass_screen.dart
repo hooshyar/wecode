@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wecode/src/screens/auth/loginScreen.dart';
+import 'package:wecode/src/screens/auth/login_screen.dart';
 import 'package:wecode/src/services/auth_service.dart';
 import 'package:wecode/widget/costume_button.dart';
 

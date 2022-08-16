@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wecode/src/screens/auth/forgotpassScreen.dart';
+import 'package:wecode/src/screens/auth/forgot_pass_screen.dart';
 import 'package:wecode/widget/costume_button.dart';
 import '../../../widget/costume_textField.dart';
 
@@ -12,7 +12,8 @@ class ResetPassScreen extends StatefulWidget {
 
 class _ResetPassScreenState extends State<ResetPassScreen> {
   final TextEditingController newPasswordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {

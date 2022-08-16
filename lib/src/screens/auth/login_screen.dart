@@ -1,7 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:wecode/src/screens/auth/forgotpassScreen.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:wecode/src/models/weCodeUser_data_model.dart';
+import 'package:wecode/src/providers/user_provider.dart';
+import 'package:wecode/src/screens/auth/forgot_pass_screen.dart';
+import 'package:wecode/src/screens/auth/handler_screen.dart';
 import 'package:wecode/src/screens/auth/registerScreen.dart';
 import 'package:wecode/src/screens/jobs_screen/jobs_screen.dart';
 import 'package:wecode/src/services/auth_service.dart';
@@ -86,9 +92,34 @@ class LoginScreen extends StatelessWidget {
               ),
               CostumeButton(
                 onPressedd: () async {
-                  await authService.signInWithEmailAndPassword(
-                      email: emailController.text.trim(),
-                      password: passwordController.text);
+                  //First step auth with firebase auth
+                  await authService
+                      .signInWithEmailAndPassword(
+                          email: emailController.text.trim(),
+                          password: passwordController.text)
+                      .then((value) => Get.to(() => HandlerScreen())
+
+                          //   .then(
+
+                          // // Second step get the user data from firestore
+                          // (userCredential) {
+                          //   //TODO: check userCredential user not to be null
+
+                          //   return FirebaseFirestore.instance
+                          //       .collection('users')
+                          //       .doc(userCredential!.user!.uid)
+                          //       .get()
+                          //       .then(
+                          //     (value) {
+                          //       //third step : save the user information into the provider
+                          //       context.read<UserProvider>().setWeCodeUser(
+                          //             WeCodeUser.fromSnapShot(value),
+                          //           );
+                          //     },
+                          //   );
+                          // },
+
+                          );
                 },
                 color: Color.fromARGB(255, 42, 146, 231),
                 text: Text(

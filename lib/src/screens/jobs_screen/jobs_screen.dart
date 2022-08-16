@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wecode/src/models/weCodeUser_data_model.dart';
+import 'package:wecode/src/providers/user_provider.dart';
 import 'package:wecode/src/screens/jobs_screen/button_value_changer.dart';
+import 'package:wecode/src/services/auth_service.dart';
 import 'package:wecode/src/temp/class1.dart';
 
 ///
@@ -17,121 +21,137 @@ class JobsScreen extends StatefulWidget {
 
 class _JobsScreenState extends State<JobsScreen> {
   final TextEditingController searchController = TextEditingController();
-
+  AuthService _authService = AuthService();
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        // sections screen [column].
-        // body: Column(
-        //   children: [
-        //     // sections screen column > (header) container.
-        //     Container(
-        //       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-        //       color: Colors.yellow,
-        //       child: Row(
-        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //         children: [
-        //           const Text(
-        //             'Job\nFinder',
-        //             style: TextStyle(
-        //               fontSize: 18,
-        //               fontWeight: FontWeight.bold,
-        //               letterSpacing: 0.5,
-        //             ),
-        //           ),
-        //           Row(
-        //             children: [
-        //               IconButton(
-        //                 onPressed: () {
-        //                   debugPrint('favorite icon clicked');
-        //                   hasNotificationFunction(); // #temporary
-        //                   // TODO: open favorite screen
-        //                 },
-        //                 icon: const Icon(Icons.favorite, size: 30),
-        //               ),
-        //               // const SizedBox(width: 15),
-        //               notificationIconButton()
-        //             ],
-        //           )
-        //         ],
-        //       ),
-        //     ),
-        //     // sections screen column > (search) container.
-        //     Container(
-        //       height: 80,
-        //       margin: const EdgeInsets.only(left: 60, top: 20, bottom: 20),
-        //       // color: Colors.transparent,
-        //       child: Container(
-        //         decoration: BoxDecoration(
-        //           color: Colors.grey.shade200,
-        //           border: const Border(
-        //             left: BorderSide(color: Colors.yellow, width: 4),
-        //           ),
-        //         ),
-        //         // color: Colors.green,
-        //         child: Row(
-        //           children: [
-        //             const Expanded(
-        //               flex: 1,
-        //               child: Icon(Icons.search),
-        //             ),
-        //             Expanded(
-        //               flex: 5,
-        //               child: Form(
-        //                 child: TextFormField(
-        //                   controller: searchController,
-        //                   style: const TextStyle(fontSize: 20),
-        //                   decoration: const InputDecoration(
-        //                       border: InputBorder.none, hintText: 'Search...'),
-        //                 ),
-        //               ),
-        //             ),
-        //             Expanded(
-        //               flex: 1,
-        //               child: IconButton(
-        //                 onPressed: () {
-        //                   debugPrint(
-        //                       'searchController= ${searchController.text}'); // #temporary
-        //                   // to clear the text input form
-        //                   searchController.clear();
-        //                 },
-        //                 icon: const Icon(Icons.close),
-        //               ),
-        //             )
-        //           ],
-        //         ),
-        //       ),
-        //     ),
-        //     // sections screen column > (body) .
-        //     Expanded(
-        //       child: ListView.separated(
-        //         itemCount: 10,
-        //         separatorBuilder: (context, index) => const Divider(
-        //           indent: 90,
-        //           endIndent: 20,
-        //           thickness: 1,
-        //         ),
-        //         itemBuilder: (context, index) {
-        //           // debugPrint(
-        //           //     '1. from itembuilder ValueChanger.hasNotificationIcon= ${ValueChanger.hasNotification}');
-        //           return jobVacanciesContainer(
-        //             theRecord: {index + 1}.toString(),
-        //             companyName: 'The Company',
-        //             companyJobPosition: 'Junior developer',
-        //             companyJobType: 'Full Time',
-        //             companyJobSalary: 92000,
-        //             favIconBool: !ButtonValueChanger.favRecord,
-        //           );
-        //         },
-        //       ),
-        //     )
-        //   ],
-        // ),
-        body: Column(
-          children: [Expanded(child: ClassOne())],
-        ),
+    final WeCodeUser weCodeUser =
+        Provider.of<UserProvider>(context).weCodeUser!;
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        title: Text('jobs'),
+        leading: Text(weCodeUser.email),
+        actions: [
+          IconButton(
+              onPressed: () async {
+                await _authService.logout();
+              },
+              icon: Icon(Icons.logout)),
+        ],
       ),
+      // sections screen [column].
+      body: Column(
+        children: [
+          // sections screen column > (header) container.
+
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+            color: Colors.yellow,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Job\nFinder',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        debugPrint('favorite icon clicked');
+                        hasNotificationFunction(); // #temporary
+                        // TODO: open favorite screen
+                      },
+                      icon: const Icon(Icons.favorite, size: 30),
+                    ),
+                    // const SizedBox(width: 15),
+                    notificationIconButton()
+                  ],
+                )
+              ],
+            ),
+          ),
+          // sections screen column > (search) container.
+          Container(
+            height: 80,
+            margin: const EdgeInsets.only(left: 60, top: 20, bottom: 20),
+            // color: Colors.transparent,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                border: const Border(
+                  left: BorderSide(color: Colors.yellow, width: 4),
+                ),
+              ),
+              // color: Colors.green,
+              child: Row(
+                children: [
+                  const Expanded(
+                    flex: 1,
+                    child: Icon(Icons.search),
+                  ),
+                  Expanded(
+                    flex: 5,
+                    child: Form(
+                      child: TextFormField(
+                        controller: searchController,
+                        style: const TextStyle(fontSize: 20),
+                        decoration: const InputDecoration(
+                            border: InputBorder.none, hintText: 'Search...'),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: IconButton(
+                      onPressed: () {
+                        debugPrint(
+                            'searchController= ${searchController.text}'); // #temporary
+                        // to clear the text input form
+                        searchController.clear();
+                      },
+                      icon: const Icon(Icons.close),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          // sections screen column > (body) .
+          Expanded(
+            child: ListView.separated(
+              itemCount: 10,
+              separatorBuilder: (context, index) => const Divider(
+                indent: 90,
+                endIndent: 20,
+                thickness: 1,
+              ),
+              itemBuilder: (context, index) {
+                // debugPrint(
+                //     '1. from itembuilder ValueChanger.hasNotificationIcon= ${ValueChanger.hasNotification}');
+                return jobVacanciesContainer(
+                  theRecord: {index + 1}.toString(),
+                  companyName: 'The Company',
+                  companyJobPosition: 'Junior developer',
+                  companyJobType: 'Full Time',
+                  companyJobSalary: 92000,
+                  favIconBool: !ButtonValueChanger.favRecord,
+                );
+              },
+            ),
+          )
+        ],
+      ),
+
+      //to test provider
+      // body: Column(
+      //   children: [Expanded(child: ClassOne())],
+      // ),
     );
   }
 

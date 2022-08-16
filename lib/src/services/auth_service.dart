@@ -42,7 +42,7 @@ class AuthService {
       if (e.code == 'user-not-found') {
         Get.snackbar('Error', 'No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        Get.snackbar('Error', 'Wrong password provided for that user.');
+        Get.snackbar('Error', 'Wrong information provided for that user.');
       } else {
         Get.snackbar('Error', e.message.toString());
       }
@@ -59,5 +59,9 @@ class AuthService {
       Get.snackbar('firebase error ', e.message.toString());
     }
     // await auth.verifyPasswordResetCode(code);
+  }
+
+  Future<void> logout() async {
+    await auth.signOut();
   }
 }
