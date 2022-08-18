@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:wecode/src/models/weCodeUser_data_model.dart';
 import 'package:wecode/src/providers/user_provider.dart';
+import 'package:wecode/src/screens/Job%20Screen/create_job_screen_view.dart';
 import 'package:wecode/src/screens/jobs_screen/button_value_changer.dart';
 import 'package:wecode/src/services/auth_service.dart';
 import 'package:wecode/src/temp/class1.dart';
@@ -28,6 +30,15 @@ class _JobsScreenState extends State<JobsScreen> {
         Provider.of<UserProvider>(context).weCodeUser!;
 
     return Scaffold(
+      floatingActionButton: ElevatedButton(
+          onPressed: () {
+            Get.to(() => CreateJobScreen());
+
+            //if you don't want to use the Get package you can navigate like this
+            // Navigator.of(context)
+            //     .push(MaterialPageRoute(builder: (_) => CreateJobScreen()));
+          },
+          child: Text('Add a new Vacancy')),
       appBar: AppBar(
         backgroundColor: Colors.green,
         title: Text('jobs'),

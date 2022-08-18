@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:wecode/src/models/weCodeUser_data_model.dart';
+
 class Vacancy {
   String type; //remote, intern, part-time, full-time
   String title;
@@ -13,6 +15,7 @@ class Vacancy {
   String? dynamicLink;
   DateTime? expDate;
   DateTime createdAt;
+  WeCodeUser user;
   Vacancy({
     required this.type,
     required this.title,
@@ -26,6 +29,7 @@ class Vacancy {
     this.dynamicLink,
     this.expDate,
     required this.createdAt,
+    required this.user,
   });
 
   Vacancy copyWith({
@@ -41,6 +45,7 @@ class Vacancy {
     String? dynamicLink,
     DateTime? expDate,
     DateTime? createdAt,
+    WeCodeUser? user,
   }) {
     return Vacancy(
       type: type ?? this.type,
@@ -55,6 +60,7 @@ class Vacancy {
       dynamicLink: dynamicLink ?? this.dynamicLink,
       expDate: expDate ?? this.expDate,
       createdAt: createdAt ?? this.createdAt,
+      user: user ?? this.user,
     );
   }
 
@@ -72,6 +78,7 @@ class Vacancy {
       'dynamicLink': dynamicLink,
       'expDate': expDate?.millisecondsSinceEpoch,
       'createdAt': createdAt.millisecondsSinceEpoch,
+      'user': user.toMap(),
     };
   }
 
@@ -91,6 +98,7 @@ class Vacancy {
           ? DateTime.fromMillisecondsSinceEpoch(map['expDate'])
           : null,
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
+      user: WeCodeUser.fromMap(map['user']),
     );
   }
 
@@ -101,7 +109,7 @@ class Vacancy {
 
   @override
   String toString() {
-    return 'Vacancy(type: $type, title: $title, description: $description, responsibilities: $responsibilities, org: $org, city: $city, category: $category, upVote: $upVote, downVote: $downVote, : $dynamicLink, expDate: $expDate, createdAt: $createdAt)';
+    return 'Vacancy(type: $type, title: $title, description: $description, responsibilities: $responsibilities, org: $org, city: $city, category: $category, upVote: $upVote, downVote: $downVote, dynamicLink: $dynamicLink, expDate: $expDate, createdAt: $createdAt, user: $user)';
   }
 
   @override
@@ -120,7 +128,8 @@ class Vacancy {
         other.downVote == downVote &&
         other.dynamicLink == dynamicLink &&
         other.expDate == expDate &&
-        other.createdAt == createdAt;
+        other.createdAt == createdAt &&
+        other.user == user;
   }
 
   @override
@@ -136,6 +145,7 @@ class Vacancy {
         downVote.hashCode ^
         dynamicLink.hashCode ^
         expDate.hashCode ^
-        createdAt.hashCode;
+        createdAt.hashCode ^
+        user.hashCode;
   }
 }

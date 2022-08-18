@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:wecode/src/common/strings.dart';
 import 'package:wecode/src/models/weCodeUser_data_model.dart';
 import 'package:wecode/src/providers/user_provider.dart';
 import 'package:wecode/src/screens/jobs_screen/jobs_screen.dart';
@@ -216,12 +217,8 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                     dropdownValue = newValue!;
                   });
                 },
-                items: <String>[
-                  'Full Stack Flutter Developer',
-                  'Front end Web Developer',
-                  'Data Engineer',
-                  'Ui/Ux designer'
-                ].map<DropdownMenuItem<String>>((String value) {
+                items: RequiredStrings.jobCategories
+                    .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),

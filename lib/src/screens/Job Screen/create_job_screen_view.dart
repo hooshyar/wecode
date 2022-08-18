@@ -1,4 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:wecode/src/common/strings.dart';
+import 'package:wecode/src/common/widgets/general_drop_down_widget.dart';
+import 'package:wecode/src/models/vacancy_data_model.dart';
+import 'package:wecode/src/models/weCodeUser_data_model.dart';
+import 'package:wecode/src/providers/user_provider.dart';
+import 'package:wecode/src/services/firestore_service.dart';
 
 class CreateJobScreen extends StatefulWidget {
   CreateJobScreen({Key? key}) : super(key: key);
@@ -17,18 +26,19 @@ class deferent extends State<CreateJobScreen> {
     'Halabja'
   ];
 
+  FireStoreService _fireStoreService = FireStoreService();
+
   List<String> typeList = ['Full Time', 'Part Time', 'Remote', 'Intern'];
 
-  List<String> categoryList = ['one', 'Two', 'Three', 'Four', 'Five'];
-
-  String? selectedtypeOfJob = 'Full Time';
-  String? selectdCity = 'Erbil';
-  String? selectedCatigory = 'one';
+  String? selectedtypeOfJob;
+  String? selectedCity = 'Erbil';
+  String? selectedCategory = RequiredStrings.jobCategories.first;
 
   TextEditingController titleTextEditingController = TextEditingController();
   TextEditingController descriptionTextEditingController =
       TextEditingController();
-  TextEditingController dateController = TextEditingController();
+  TextEditingController organizationController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +46,7 @@ class deferent extends State<CreateJobScreen> {
           elevation: 0,
           backgroundColor: Colors.transparent,
           centerTitle: true,
+          foregroundColor: Colors.red,
           title: Text(
             'JOB INFO',
             style: headerTextStyle(),
@@ -68,8 +79,10 @@ class deferent extends State<CreateJobScreen> {
                   // space between header and Input.
                   spaceBetweenHeaderAndInput(),
                   // DropDown Button for Type of Jobs.
-                  dropDownButton(
-                      selectedItem: selectedtypeOfJob, itemsList: typeList),
+                  GeneralDropDownButton(
+                      selectedItem: selectedtypeOfJob,
+                      itemsList: typeList,
+                      valueChanged: (job) => selectedtypeOfJob = job),
 
                   ///
                   ///
@@ -104,7 +117,7 @@ class deferent extends State<CreateJobScreen> {
                   spaceBetweenHeaderAndInput(),
                   // DropDown Button for city
                   textField(
-                      textController: descriptionTextEditingController,
+                      textController: organizationController,
                       name: 'Organization'),
 
                   ///
@@ -119,8 +132,12 @@ class deferent extends State<CreateJobScreen> {
                   // space between header and input widget
                   spaceBetweenHeaderAndInput(),
                   // DropDown Button for city
-                  dropDownButton(
-                      selectedItem: selectdCity, itemsList: citysList),
+                  GeneralDropDownButton(
+                      selectedItem: selectedCity,
+                      itemsList: citysList,
+                      valueChanged: (city) => setState(() {
+                            selectedCity = city;
+                          })),
 
                   ///
                   ///
@@ -134,9 +151,62 @@ class deferent extends State<CreateJobScreen> {
                   // space between header and input widget
                   spaceBetweenHeaderAndInput(),
                   // DropDown Button for city
-                  dropDownButton(
-                      selectedItem: selectedCatigory, itemsList: categoryList),
+                  GeneralDropDownButton(
+                      selectedItem: selectedCategory,
+                      itemsList: RequiredStrings.jobCategories,
+                      valueChanged: (value) => selectedCategory = value),
                   spaceBetweenHeaderAndInput(),
+
+                  ElevatedButton.icon(
+                      onPressed: () {
+                        WeCodeUser? weCodeUser =
+                            context.read<UserProvider>().weCodeUser;
+                        if (weCodeUser != null) {
+                          Vacancy _vacancy = Vacancy(
+                              type: selectedtypeOfJob ?? typeList.first,
+                              title: titleTextEditingController.text,
+                              description:
+                                  descriptionTextEditingController.text,
+                              org: organizationController.text,
+                              city: selectedCity ??
+                                  citysList.firstWhere(
+                                      (element) => element == 'Erbil'),
+                              category: selectedCategory ??
+                                  RequiredStrings.jobCategories.first,
+                              createdAt: DateTime.now(),
+                              expDate: DateTime.now().add(Duration(days: 15)),
+                              user: weCodeUser);
+
+                          Get.defaultDialog(
+                            title: 'values',
+                            content: Container(
+                              height: 500,
+                              child: Column(
+                                children: [
+                                  Expanded(child: Text(_vacancy.toString())),
+                                  ElevatedButton(
+                                      onPressed: () async {
+                                        //TODO: _loading
+
+                                        await _fireStoreService
+                                            .addNewVacancy(_vacancy)
+                                            .then((value) {
+                                          debugPrint(" ref id  :  " + value.id);
+                                          Navigator.of(context).pop();
+                                        });
+                                      },
+                                      child: Text('Are you sure? '))
+                                ],
+                              ),
+                            ),
+                          );
+                        } else {
+                          Get.snackbar('Error',
+                              'You don\'t have the privileges to do that ');
+                        }
+                      },
+                      icon: Icon(Icons.add),
+                      label: Text('Add a New Vacancy')),
 
                   ///
                   ///
@@ -160,13 +230,6 @@ class deferent extends State<CreateJobScreen> {
     );
   }
 
-  // Style of text inside Drop Down Button
-  TextStyle dropDownItemStyle() {
-    return TextStyle(
-      fontSize: 15,
-    );
-  }
-
   // Information Header Text Style [ City , Category , ... etc]
   // Font Weight is BOLD.
   TextStyle informationHeaderOfInputsTextStyle() {
@@ -182,34 +245,42 @@ class deferent extends State<CreateJobScreen> {
   // the size will be different for other platforms
   // the drop down button controller will return String
   // using ( drop DownItemStyle() ) is a method that user define is this file
-  Widget dropDownButton(
-      {required String? selectedItem, required List<String> itemsList}) {
-    return SizedBox(
-      width: 350,
-      child: DropdownButtonFormField<String>(
-          decoration: InputDecoration(
-              focusedBorder:
-                  OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    color: Colors.red,
-                    width: 1,
-                  ))),
-          value: selectedItem,
-          items: itemsList
-              .map((item) => DropdownMenuItem(
-                  value: item,
-                  child: Text(
-                    item,
-                    style: dropDownItemStyle(),
-                  )))
-              .toList(),
-          onChanged: (item) => setState(() {
-                selectedItem = item;
-              })),
-    );
-  }
+  // Widget dropDownButton(
+  //     {required String? selectedItem,
+  //     required List<String> itemsList,
+  //     required valueChanged}) {
+  //   final ValueChanged<String> valueChanged;
+  //   return SizedBox(
+  //     width: 350,
+  //     child: DropdownButtonFormField<String>(
+  //         decoration: InputDecoration(
+  //             focusedBorder:
+  //                 OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+  //             enabledBorder: OutlineInputBorder(
+  //                 borderRadius: BorderRadius.circular(5),
+  //                 borderSide: BorderSide(
+  //                   color: Colors.red,
+  //                   width: 1,
+  //                 ))),
+  //         value: selectedItem,
+  //         items: itemsList
+  //             .map((item) => DropdownMenuItem(
+  //                 value: item,
+  //                 child: Text(
+  //                   item,
+  //                   style: dropDownItemStyle(),
+  //                 )))
+  //             .toList(),
+  //         onChanged: (item) {
+  //           // setState(() {
+
+  //           //     selec = item;
+  //           //   });
+  //           valueChanged(item!);
+  //         }),
+  //   );
+
+  // }
 
   // this is the header of the text field and drop down button.
   Widget headerInformationOfInputs({required String name}) {

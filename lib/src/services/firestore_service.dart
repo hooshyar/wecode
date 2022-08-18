@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:wecode/src/models/vacancy_data_model.dart';
 import 'package:wecode/src/models/weCodeUser_data_model.dart';
 
 class FireStoreService {
@@ -20,6 +21,10 @@ class FireStoreService {
 
     await _firestore.collection('users').doc(user.uid).set(weCodeUser.toMap());
     return weCodeUser;
+  }
+
+  Future<DocumentReference> addNewVacancy(Vacancy vacancy) async {
+    return await _firestore.collection('jobs').add(vacancy.toMap());
   }
 
   updateUserInformationFromCreateProfile({required WeCodeUser weCodeUser}) {}
