@@ -98,7 +98,7 @@ class Vacancy {
           ? DateTime.fromMillisecondsSinceEpoch(map['expDate'])
           : null,
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
-      user: WeCodeUser.fromMap(map['user']),
+      user: WeCodeUser.fromMap(map['user'].cast<String, dynamic>()),
     );
   }
 
