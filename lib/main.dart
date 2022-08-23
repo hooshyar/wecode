@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:wecode/src/app.dart';
@@ -17,6 +18,32 @@ void main() async {
   final favBox = await Hive.openBox('favBox');
   // favBox.delete('jobId');
   // debugPrint(favBox.get('jobId'));
+
+  // and instance from the local notifications plugin
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  //android init
+  // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('app_icon');
+
+  final IOSInitializationSettings initializationSettingsIOS =
+      IOSInitializationSettings(
+          onDidReceiveLocalNotification: (id, title, body, payload) {
+    print('on foreground : ' + id.toString());
+    print(title);
+    print(body);
+    print(payload);
+  });
+
+  final InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsIOS,
+  );
+
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+      onSelectNotification: (value) => print('tapped' + value.toString()));
 
   runApp(
     MultiProvider(

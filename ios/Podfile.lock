@@ -652,6 +652,8 @@ PODS:
     - leveldb-library (~> 1.22)
     - nanopb (< 2.30910.0, >= 2.30908.0)
   - Flutter (1.0.0)
+  - flutter_local_notifications (0.0.1):
+    - Flutter
   - GoogleDataTransport (9.2.0):
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
@@ -744,6 +746,7 @@ DEPENDENCIES:
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
 
 SPEC REPOS:
@@ -775,6 +778,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core/ios"
   Flutter:
     :path: Flutter
+  flutter_local_notifications:
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
   path_provider_ios:
     :path: ".symlinks/plugins/path_provider_ios/ios"
 
@@ -791,6 +796,7 @@ SPEC CHECKSUMS:
   FirebaseCoreInternal: 635d1c9a612a6502b6377a0c92af83758076ffff
   FirebaseFirestore: 5a72aa925528f67469b16a54a6cfc369467197e4
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   "gRPC-C++": 9675f953ace2b3de7c506039d77be1f2e77a8db2

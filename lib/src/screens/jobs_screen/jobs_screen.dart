@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
@@ -35,6 +36,9 @@ class _JobsScreenState extends State<JobsScreen> {
   List<Vacancy> filteredVacancies = [];
   String? selectedCategory;
 
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
   @override
   Widget build(BuildContext context) {
     final WeCodeUser weCodeUser =
@@ -42,9 +46,26 @@ class _JobsScreenState extends State<JobsScreen> {
 
     return Scaffold(
       floatingActionButton: ElevatedButton(
-        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.green)),
           onPressed: () {
-            Get.to(() => CreateJobScreen());
+            // Future.delayed(Duration(seconds: 3)).then((value) =>
+            //     flutterLocalNotificationsPlugin.show(
+            //         12,
+            //         'hello',
+            //         'this is a background notificicaijsdaspfjl c pksdfjlaksdfj',
+            //         NotificationDetails()));
+
+            // flutterLocalNotificationsPlugin.periodicallyShow(
+            //     12,
+            //     'hello',
+            //     'this is a background notificicaijsdaspfjl c pksdfjlaksdfj',
+            //     RepeatInterval.everyMinute,
+            //     NotificationDetails());
+
+            Get.to(() {
+              return CreateJobScreen();
+            });
 
             //if you don't want to use the Get package you can navigate like this
             // Navigator.of(context)
@@ -54,7 +75,11 @@ class _JobsScreenState extends State<JobsScreen> {
       appBar: AppBar(
         backgroundColor: Colors.green,
         // title: Text('jobs'),
-        title: customeText(name: 'Job Vacanies', fontSize: 20, maxLines: 1, fontWeight: FontWeight.w800),
+        title: customeText(
+            name: 'Job Vacanies',
+            fontSize: 20,
+            maxLines: 1,
+            fontWeight: FontWeight.w800),
         leading: Text(weCodeUser.email),
         actions: [
           IconButton(
@@ -70,10 +95,12 @@ class _JobsScreenState extends State<JobsScreen> {
           // const SizedBox(width: 15),
           notificationIconButton(),
           IconButton(
-              onPressed: () async {
-                await _authService.logout();
-              },
-              icon: Icon(Icons.logout), color: Color.lerp(Colors.red, Colors.green, 0.3),),
+            onPressed: () async {
+              await _authService.logout();
+            },
+            icon: Icon(Icons.logout),
+            color: Color.lerp(Colors.red, Colors.green, 0.3),
+          ),
         ],
       ),
       // sections screen [column].
@@ -137,7 +164,7 @@ class _JobsScreenState extends State<JobsScreen> {
                                             vacancies: _vacancies,
                                             orgName: searchController.text);
                                       });
-                          
+
                                       //TODO: set the list to the variable
                                     },
                                   ),
@@ -167,7 +194,7 @@ class _JobsScreenState extends State<JobsScreen> {
                                       child: Icon(Icons.close),
                                       onTap: () {
                                         searchController.clear();
-                          
+
                                         setState(() {
                                           filteredVacancies = [];
                                         });
@@ -205,9 +232,9 @@ class _JobsScreenState extends State<JobsScreen> {
                   ),
                 ),
                 Divider(
-                        color: Colors.green,
-                        height: 0,
-                      ),
+                  color: Colors.green,
+                  height: 0,
+                ),
                 // sections screen column > (body) .
                 Expanded(
                     child: snapshot.data == null || snapshot.data!.docs.isEmpty
@@ -270,7 +297,7 @@ class _JobsScreenState extends State<JobsScreen> {
       required double fontSize,
       FontWeight? fontWeight,
       double? letterSpacing,
-      int? maxLines }) {
+      int? maxLines}) {
     return Column(
       children: [
         Text(
@@ -279,7 +306,7 @@ class _JobsScreenState extends State<JobsScreen> {
               fontSize: fontSize,
               fontWeight: fontWeight,
               letterSpacing: letterSpacing),
-              maxLines: maxLines,
+          maxLines: maxLines,
         ),
         const SizedBox(
           height: 7,
@@ -351,8 +378,7 @@ class _JobsScreenState extends State<JobsScreen> {
                       //   fontSize: 17,
                       //   fontWeight: FontWeight.w500,
                       // ),
-                      customeText(name: vacancy.city, fontSize: 14,
-                      maxLines: 1)
+                      customeText(name: vacancy.city, fontSize: 14, maxLines: 1)
                     ],
                   )
                 ],
