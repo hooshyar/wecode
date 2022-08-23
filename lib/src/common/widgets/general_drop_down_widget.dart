@@ -14,17 +14,17 @@ class GeneralDropDownButton extends StatelessWidget {
   final ValueChanged<String> valueChanged;
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 350,
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 15),
       child: DropdownButtonFormField<String>(
           decoration: InputDecoration(
-              focusedBorder:
-                  OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.green)),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
                   borderSide: BorderSide(
-                    color: Colors.red,
-                    width: 1,
+                    color: Colors.green,
+                    width: 2,
                   ))),
           value: selectedItem ?? itemsList.first,
           items: itemsList
