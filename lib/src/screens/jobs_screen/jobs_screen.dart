@@ -365,6 +365,12 @@ class _JobsScreenState extends State<JobsScreen> {
                       letterSpacing: 0.4,
                       maxLines: 1),
                   customeText(
+                      name: vacancy.user.name,
+                      fontSize: 017,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.4,
+                      maxLines: 1),
+                  customeText(
                       name: '${vacancy.title} • ${vacancy.type}',
                       // name: 'gggggggggggggggggggggggggggggggggggggg',
                       fontSize: 014,
