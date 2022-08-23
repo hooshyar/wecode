@@ -42,6 +42,7 @@ class _JobsScreenState extends State<JobsScreen> {
 
     return Scaffold(
       floatingActionButton: ElevatedButton(
+        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),
           onPressed: () {
             Get.to(() => CreateJobScreen());
 
@@ -49,17 +50,30 @@ class _JobsScreenState extends State<JobsScreen> {
             // Navigator.of(context)
             //     .push(MaterialPageRoute(builder: (_) => CreateJobScreen()));
           },
-          child: Text('Add a new Vacancy')),
+          child: Text('+ Add a new Vacancy')),
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: Text('jobs'),
+        // title: Text('jobs'),
+        title: customeText(name: 'Job Vacanies', fontSize: 20, maxLines: 1, fontWeight: FontWeight.w800),
         leading: Text(weCodeUser.email),
         actions: [
+          IconButton(
+            onPressed: () {
+              debugPrint('favorite icon clicked');
+              hasNotificationFunction(); // #temporary
+              // TODO: open favorite screen
+
+              Get.to(() => FavoritesScreen());
+            },
+            icon: const Icon(Icons.favorite_outline, size: 30),
+          ),
+          // const SizedBox(width: 15),
+          notificationIconButton(),
           IconButton(
               onPressed: () async {
                 await _authService.logout();
               },
-              icon: Icon(Icons.logout)),
+              icon: Icon(Icons.logout), color: Color.lerp(Colors.red, Colors.green, 0.3),),
         ],
       ),
       // sections screen [column].
@@ -89,168 +103,140 @@ class _JobsScreenState extends State<JobsScreen> {
                 )
                 .toList();
 
-            return Column(children: [
-              // sections screen column > (header) container.
-
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                color: Colors.yellow,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Job\nFinder',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            debugPrint('favorite icon clicked');
-                            hasNotificationFunction(); // #temporary
-                            // TODO: open favorite screen
-
-                            Get.to(() => FavoritesScreen());
-                          },
-                          icon: const Icon(Icons.favorite, size: 30),
-                        ),
-                        // const SizedBox(width: 15),
-                        notificationIconButton()
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              // sections screen column > (search) container.
-              Container(
-                height: 160,
-                margin: const EdgeInsets.only(
-                    left: 10, top: 20, bottom: 20, right: 10),
-                // color: Colors.transparent,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 80,
-                        child: GeneralDropDownButton(
-                          itemsList: RequiredStrings.jobCategories,
-                          selectedItem: selectedCategory,
-                          valueChanged: (value) {
-                            setState(() {
-                              if (value == 'All') {
-                                selectedCategory = null;
-                              } else {
-                                selectedCategory = value;
-                              }
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                    ),
-                    Expanded(
-                      child: Container(
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
-                          border: const Border(
-                            left: BorderSide(color: Colors.yellow, width: 4),
-                          ),
-                        ),
-                        // color: Colors.green,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: GestureDetector(
-                                child: Icon(Icons.search),
-                                onTap: () {
-                                  //TODO: add results to a variable ,
-                                  setState(() {
-                                    searchFunction(
-                                        vacancies: _vacancies,
-                                        orgName: searchController.text);
-                                  });
-
-                                  //TODO: set the list to the variable
-                                },
-                              ),
+            return Column(
+              children: [
+                // sections screen column > (search) container.
+                Container(
+                  height: 160,
+                  margin: const EdgeInsets.only(
+                      left: 10, top: 20, bottom: 10, right: 10),
+                  // color: Colors.transparent,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 15),
+                          height: 80,
+                          decoration: BoxDecoration(
+                            border: const Border(
+                              left: BorderSide(color: Colors.green, width: 4),
                             ),
-                            Expanded(
-                              flex: 5,
-                              child: Form(
-                                child: TextFormField(
-                                  controller: searchController,
-                                  style: const TextStyle(fontSize: 20),
-                                  decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Search...'),
+                          ),
+                          // color: Colors.green,
+                          child: Card(
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: GestureDetector(
+                                    child: Icon(Icons.search),
+                                    onTap: () {
+                                      //TODO: add results to a variable ,
+                                      setState(() {
+                                        searchFunction(
+                                            vacancies: _vacancies,
+                                            orgName: searchController.text);
+                                      });
+                          
+                                      //TODO: set the list to the variable
+                                    },
+                                  ),
                                 ),
-                              ),
+                                Expanded(
+                                  flex: 5,
+                                  child: Form(
+                                    child: TextFormField(
+                                      controller: searchController,
+                                      style: const TextStyle(fontSize: 20),
+                                      decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: 'Search...'),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      debugPrint(
+                                          'searchController= ${searchController.text}'); // #temporary
+                                      // to clear the text input form
+                                      searchController.clear();
+                                    },
+                                    icon: InkWell(
+                                      child: Icon(Icons.close),
+                                      onTap: () {
+                                        searchController.clear();
+                          
+                                        setState(() {
+                                          filteredVacancies = [];
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
-                            Expanded(
-                              flex: 1,
-                              child: IconButton(
-                                onPressed: () {
-                                  debugPrint(
-                                      'searchController= ${searchController.text}'); // #temporary
-                                  // to clear the text input form
-                                  searchController.clear();
-                                },
-                                icon: InkWell(
-                                  child: Icon(Icons.close),
-                                  onTap: () {
-                                    searchController.clear();
-
-                                    setState(() {
-                                      filteredVacancies = [];
-                                    });
-                                  },
-                                ),
-                              ),
-                            )
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                      Divider(
+                        color: Colors.transparent,
+                      ),
+                      Expanded(
+                        child: Container(
+                          height: 80,
+                          child: GeneralDropDownButton(
+                            itemsList: RequiredStrings.jobCategories,
+                            selectedItem: selectedCategory,
+                            valueChanged: (value) {
+                              setState(() {
+                                if (value == 'All') {
+                                  selectedCategory = null;
+                                } else {
+                                  selectedCategory = value;
+                                }
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              // sections screen column > (body) .
-              Expanded(
-                  child: snapshot.data == null || snapshot.data!.docs.isEmpty
-                      ? Container(
-                          child: Center(
-                            child: Text('empty'),
-                          ),
-                        )
-                      : ListView.separated(
-                          itemCount: (filteredVacancies.length == 0
-                                  ? _vacancies
-                                  : filteredVacancies)
-                              .length,
-                          separatorBuilder: (context, index) => const Divider(
-                            indent: 90,
-                            endIndent: 20,
-                            thickness: 1,
-                          ),
-                          itemBuilder: (context, index) {
-                            // debugPrint(
-                            //     '1. from itembuilder ValueChanger.hasNotificationIcon= ${ValueChanger.hasNotification}');
-                            return jobVacanciesContainer(
-                                vacancy: (filteredVacancies.length == 0
+                Divider(
+                        color: Colors.green,
+                        height: 0,
+                      ),
+                // sections screen column > (body) .
+                Expanded(
+                    child: snapshot.data == null || snapshot.data!.docs.isEmpty
+                        ? Container(
+                            child: Center(
+                              child: Text('empty'),
+                            ),
+                          )
+                        : ListView.separated(
+                            itemCount: (filteredVacancies.length == 0
                                     ? _vacancies
-                                    : filteredVacancies)[index]);
-                          },
-                        ))
-            ]);
+                                    : filteredVacancies)
+                                .length,
+                            separatorBuilder: (context, index) => const Divider(
+                              indent: 90,
+                              endIndent: 20,
+                              thickness: 1,
+                            ),
+                            itemBuilder: (context, index) {
+                              // debugPrint(
+                              //     '1. from itembuilder ValueChanger.hasNotificationIcon= ${ValueChanger.hasNotification}');
+                              return jobVacanciesContainer(
+                                  vacancy: (filteredVacancies.length == 0
+                                      ? _vacancies
+                                      : filteredVacancies)[index]);
+                            },
+                          ))
+              ],
+            );
           }),
     );
 
@@ -283,7 +269,8 @@ class _JobsScreenState extends State<JobsScreen> {
       {required String name,
       required double fontSize,
       FontWeight? fontWeight,
-      double? letterSpacing}) {
+      double? letterSpacing,
+      int? maxLines }) {
     return Column(
       children: [
         Text(
@@ -292,6 +279,7 @@ class _JobsScreenState extends State<JobsScreen> {
               fontSize: fontSize,
               fontWeight: fontWeight,
               letterSpacing: letterSpacing),
+              maxLines: maxLines,
         ),
         const SizedBox(
           height: 7,
@@ -306,7 +294,7 @@ class _JobsScreenState extends State<JobsScreen> {
     IconData favIconFill = Icons.favorite;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      height: 100,
+      height: 110,
       // color: Colors.grey,
       child: Row(
         children: [
@@ -347,11 +335,14 @@ class _JobsScreenState extends State<JobsScreen> {
                       name: vacancy.org,
                       fontSize: 017,
                       fontWeight: FontWeight.bold,
-                      letterSpacing: 0.4),
+                      letterSpacing: 0.4,
+                      maxLines: 1),
                   customeText(
                       name: '${vacancy.title} • ${vacancy.type}',
+                      // name: 'gggggggggggggggggggggggggggggggggggggg',
                       fontSize: 014,
-                      letterSpacing: 0.4),
+                      letterSpacing: 0.4,
+                      maxLines: 2),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -360,7 +351,8 @@ class _JobsScreenState extends State<JobsScreen> {
                       //   fontSize: 17,
                       //   fontWeight: FontWeight.w500,
                       // ),
-                      customeText(name: 'Year', fontSize: 14)
+                      customeText(name: vacancy.city, fontSize: 14,
+                      maxLines: 1)
                     ],
                   )
                 ],
