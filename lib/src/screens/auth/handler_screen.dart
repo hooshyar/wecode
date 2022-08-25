@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -12,6 +13,7 @@ import 'package:wecode/src/screens/Job%20Screen/create_job_screen_view.dart';
 import 'package:wecode/src/screens/auth/login_screen.dart';
 import 'package:wecode/src/screens/create_profile_screen/create_profile.dart';
 import 'package:wecode/src/screens/jobs_screen/jobs_screen.dart';
+import 'package:wecode/src/services/firestore_service.dart';
 
 class HandlerScreen extends StatefulWidget {
   HandlerScreen({Key? key}) : super(key: key);
@@ -22,6 +24,7 @@ class HandlerScreen extends StatefulWidget {
 
 class _HandlerScreenState extends State<HandlerScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
+  FireStoreService fireStoreService = FireStoreService();
 
   WeCodeUser? thWecodeUser;
 
@@ -55,9 +58,10 @@ class _HandlerScreenState extends State<HandlerScreen> {
                     child: Text(snapshotFromFuture.error.toString()),
                   );
                 } else if (snapshotFromFuture.data == null) {
-                  //TODO: go to create Profile
+                  //TODO: get the device token
 
-                  // Get.to(()=> CreateProfileScreen(weCodeUser: weCodeUser, isUpdate: isUpdate))
+                  //TODO: save the device token to user/device_tokens
+
                 }
                 return JobsScreen();
               });
@@ -72,6 +76,14 @@ class _HandlerScreenState extends State<HandlerScreen> {
         .doc(user.uid)
         .get()
         .then((value) => WeCodeUser.fromSnapShot(value));
+
+    if (weCodeUser != null) {
+      String? deviceToken = await FirebaseMessaging.instance.getToken();
+      if (deviceToken != null) {
+        fireStoreService.addDeviceToken(token: deviceToken, user: weCodeUser);
+        debugPrint('token for user: ' + (deviceToken ?? 'null'));
+      }
+    }
 
     Provider.of<UserProvider>(context, listen: false).setWeCodeUser(weCodeUser);
 

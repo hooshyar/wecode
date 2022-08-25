@@ -8,6 +8,19 @@ class FireStoreService {
 
   // add user with initial information to database
 
+  Future<void>? addDeviceToken(
+      {required WeCodeUser user, required String token}) {
+    if (user.reference != null) {
+      user.reference!.update({
+        'deviceTokens': FieldValue.arrayUnion([token])
+      });
+    } else {
+      _firestore.collection('users').doc(user.uid).update({
+        'deviceTokens': FieldValue.arrayUnion([token])
+      });
+    }
+  }
+
   Future<WeCodeUser> addUserWithInitialInformationToDB(
       {required User user,
       required String userName,

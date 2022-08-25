@@ -50,11 +50,11 @@ class _JobsScreenState extends State<JobsScreen> {
               backgroundColor: MaterialStateProperty.all(Colors.green)),
           onPressed: () {
             // Future.delayed(Duration(seconds: 3)).then((value) =>
-            //     flutterLocalNotificationsPlugin.show(
-            //         12,
-            //         'hello',
-            //         'this is a background notificicaijsdaspfjl c pksdfjlaksdfj',
-            //         NotificationDetails()));
+            // flutterLocalNotificationsPlugin.show(
+            //     12,
+            //     'hello',
+            //     'this is a background notificicaijsdaspfjl c pksdfjlaksdfj',
+            //     NotificationDetails());
 
             // flutterLocalNotificationsPlugin.periodicallyShow(
             //     12,
@@ -321,7 +321,7 @@ class _JobsScreenState extends State<JobsScreen> {
     IconData favIconFill = Icons.favorite;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      height: 110,
+      height: 120,
       // color: Colors.grey,
       child: Row(
         children: [
