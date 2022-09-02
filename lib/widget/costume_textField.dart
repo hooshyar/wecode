@@ -19,7 +19,7 @@ class CostumeTextField extends StatelessWidget {
       decoration: InputDecoration(
         icon: icon,
         hintText: hint,
-        hintStyle: TextStyle(fontSize: 18 , fontWeight: FontWeight.w400),
+        hintStyle: const TextStyle(fontSize: 18 , fontWeight: FontWeight.w400),
       ),
     );
   }

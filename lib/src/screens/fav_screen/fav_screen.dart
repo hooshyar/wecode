@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:wecode/src/models/vacancy_data_model.dart';
 
@@ -10,7 +8,9 @@ class FavoritesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Favorites'),
+      ),
       body: Container(
           child: ValueListenableBuilder<Box>(
         valueListenable: Hive.box('favBox').listenable(),

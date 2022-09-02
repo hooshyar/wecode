@@ -6,7 +6,7 @@ class UserProvider extends ChangeNotifier {
 
   setWeCodeUser(WeCodeUser user) {
     weCodeUser = user;
-    debugPrint('from provider : ' + weCodeUser.toString());
+    debugPrint('from provider : $weCodeUser');
     notifyListeners();
   }
 }

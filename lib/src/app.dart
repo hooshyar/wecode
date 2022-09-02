@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wecode/src/screens/auth/forgot_pass_screen.dart';
 import 'package:wecode/src/screens/auth/handler_screen.dart';
-import 'package:wecode/src/screens/jobs_screen/jobs_screen.dart';
-import 'package:wecode/src/screens/screenHandler.dart';
 
 class WeCodeApp extends StatelessWidget {
   const WeCodeApp({Key? key}) : super(key: key);
@@ -42,6 +37,6 @@ class WeCodeApp extends StatelessWidget {
                 textTheme: ButtonTextTheme.primary,
               ),
         ),
-        home: HandlerScreen());
+        home: const HandlerScreen());
   }
 }

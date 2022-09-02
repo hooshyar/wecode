@@ -14,7 +14,6 @@ import 'package:wecode/src/screens/Job%20Screen/create_job_screen_view.dart';
 import 'package:wecode/src/screens/fav_screen/fav_screen.dart';
 import 'package:wecode/src/screens/jobs_screen/button_value_changer.dart';
 import 'package:wecode/src/services/auth_service.dart';
-import 'package:wecode/src/temp/class1.dart';
 
 ///
 ///  # temporary codes
@@ -64,22 +63,23 @@ class _JobsScreenState extends State<JobsScreen> {
             //     NotificationDetails());
 
             Get.to(() {
-              return CreateJobScreen();
+              return const CreateJobScreen();
             });
 
             //if you don't want to use the Get package you can navigate like this
             // Navigator.of(context)
             //     .push(MaterialPageRoute(builder: (_) => CreateJobScreen()));
           },
-          child: Text('+ Add a new Vacancy')),
+          child: const Text('+ Add a new Vacancy')),
       appBar: AppBar(
         backgroundColor: Colors.green,
         // title: Text('jobs'),
         title: customeText(
-            name: 'Job Vacanies',
+            name: 'Jobs',
             fontSize: 20,
             maxLines: 1,
-            fontWeight: FontWeight.w800),
+            fontWeight: FontWeight.w800,
+            color: Colors.white),
         leading: Text(weCodeUser.email),
         actions: [
           IconButton(
@@ -88,7 +88,7 @@ class _JobsScreenState extends State<JobsScreen> {
               hasNotificationFunction(); // #temporary
               // TODO: open favorite screen
 
-              Get.to(() => FavoritesScreen());
+              Get.to(() => const FavoritesScreen());
             },
             icon: const Icon(Icons.favorite_outline, size: 30),
           ),
@@ -98,175 +98,175 @@ class _JobsScreenState extends State<JobsScreen> {
             onPressed: () async {
               await _authService.logout();
             },
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
             color: Color.lerp(Colors.red, Colors.green, 0.3),
           ),
         ],
       ),
       // sections screen [column].
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          stream: FirebaseFirestore.instance
-              .collection('jobs')
-              // to search by a query
-              // .where('org', isGreaterThan: searchParam)
-              .where('category', isEqualTo: selectedCategory)
-              // .where('city', isEqualTo: 'Erbil')
-              // .where('createdAt', isLessThan: DateTime.now().toIso8601String())
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return LoadingIndicator();
-            } else if (snapshot.hasError) {
-              return Center(
-                child: SelectableText(snapshot.error.toString()),
-              );
-            }
-
-            List<Vacancy> _vacancies = snapshot.data!.docs
-                .map(
-                  (e) => Vacancy.fromMap(
-                    e.data(),
-                  ),
-                )
-                .toList();
-
-            return Column(
-              children: [
-                // sections screen column > (search) container.
-                Container(
-                  height: 160,
-                  margin: const EdgeInsets.only(
-                      left: 10, top: 20, bottom: 10, right: 10),
-                  // color: Colors.transparent,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 15),
-                          height: 80,
-                          decoration: BoxDecoration(
-                            border: const Border(
-                              left: BorderSide(color: Colors.green, width: 4),
-                            ),
-                          ),
-                          // color: Colors.green,
-                          child: Card(
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: GestureDetector(
-                                    child: Icon(Icons.search),
-                                    onTap: () {
-                                      //TODO: add results to a variable ,
-                                      setState(() {
-                                        searchFunction(
-                                            vacancies: _vacancies,
-                                            orgName: searchController.text);
-                                      });
-
-                                      //TODO: set the list to the variable
-                                    },
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 5,
-                                  child: Form(
-                                    child: TextFormField(
-                                      controller: searchController,
-                                      style: const TextStyle(fontSize: 20),
-                                      decoration: const InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: 'Search...'),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: IconButton(
-                                    onPressed: () {
-                                      debugPrint(
-                                          'searchController= ${searchController.text}'); // #temporary
-                                      // to clear the text input form
-                                      searchController.clear();
-                                    },
-                                    icon: InkWell(
-                                      child: Icon(Icons.close),
-                                      onTap: () {
-                                        searchController.clear();
-
-                                        setState(() {
-                                          filteredVacancies = [];
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Divider(
-                        color: Colors.transparent,
-                      ),
-                      Expanded(
-                        child: Container(
-                          height: 80,
-                          child: GeneralDropDownButton(
-                            itemsList: RequiredStrings.jobCategories,
-                            selectedItem: selectedCategory,
-                            valueChanged: (value) {
-                              setState(() {
-                                if (value == 'All') {
-                                  selectedCategory = null;
-                                } else {
-                                  selectedCategory = value;
-                                }
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(
-                  color: Colors.green,
-                  height: 0,
-                ),
-                // sections screen column > (body) .
-                Expanded(
-                    child: snapshot.data == null || snapshot.data!.docs.isEmpty
-                        ? Container(
-                            child: Center(
-                              child: Text('empty'),
-                            ),
-                          )
-                        : ListView.separated(
-                            itemCount: (filteredVacancies.length == 0
-                                    ? _vacancies
-                                    : filteredVacancies)
-                                .length,
-                            separatorBuilder: (context, index) => const Divider(
-                              indent: 90,
-                              endIndent: 20,
-                              thickness: 1,
-                            ),
-                            itemBuilder: (context, index) {
-                              // debugPrint(
-                              //     '1. from itembuilder ValueChanger.hasNotificationIcon= ${ValueChanger.hasNotification}');
-                              return jobVacanciesContainer(
-                                  vacancy: (filteredVacancies.length == 0
-                                      ? _vacancies
-                                      : filteredVacancies)[index]);
-                            },
-                          ))
-              ],
+        stream: FirebaseFirestore.instance
+            .collection('jobs')
+            // to search by a query
+            // .where('org', isGreaterThan: searchParam)
+            .where('category', isEqualTo: selectedCategory)
+            // .where('city', isEqualTo: 'Erbil')
+            // .where('createdAt', isLessThan: DateTime.now().toIso8601String())
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const LoadingIndicator();
+          } else if (snapshot.hasError) {
+            return Center(
+              child: SelectableText(snapshot.error.toString()),
             );
-          }),
-    );
+          }
 
+          List<Vacancy> _vacancies = snapshot.data!.docs
+              .map(
+                (e) => Vacancy.fromMap(
+                  e.data(),
+                ),
+              )
+              .toList();
+
+          return Column(
+            children: [
+              // sections screen column > (search) container.
+              Container(
+                height: 160,
+                margin: const EdgeInsets.only(
+                    left: 10, top: 20, bottom: 10, right: 10),
+                // color: Colors.transparent,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 15),
+                        height: 80,
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            left: BorderSide(color: Colors.green, width: 4),
+                          ),
+                        ),
+                        // color: Colors.green,
+                        child: Card(
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: GestureDetector(
+                                  child: const Icon(Icons.search),
+                                  onTap: () {
+                                    //TODO: add results to a variable ,
+                                    setState(() {
+                                      searchFunction(
+                                          vacancies: _vacancies,
+                                          orgName: searchController.text);
+                                    });
+
+                                    //TODO: set the list to the variable
+                                  },
+                                ),
+                              ),
+                              Expanded(
+                                flex: 5,
+                                child: Form(
+                                  child: TextFormField(
+                                    controller: searchController,
+                                    style: const TextStyle(fontSize: 20),
+                                    decoration: const InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: 'Search...'),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: IconButton(
+                                  onPressed: () {
+                                    debugPrint(
+                                        'searchController= ${searchController.text}'); // #temporary
+                                    // to clear the text input form
+                                    searchController.clear();
+                                  },
+                                  icon: InkWell(
+                                    child: const Icon(Icons.close),
+                                    onTap: () {
+                                      searchController.clear();
+
+                                      setState(() {
+                                        filteredVacancies = [];
+                                      });
+                                    },
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const Divider(
+                      color: Colors.transparent,
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: 80,
+                        child: GeneralDropDownButton(
+                          itemsList: RequiredStrings.jobCategories,
+                          selectedItem: selectedCategory,
+                          valueChanged: (value) {
+                            setState(() {
+                              if (value == 'All') {
+                                selectedCategory = null;
+                              } else {
+                                selectedCategory = value;
+                              }
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Divider(
+                color: Colors.green,
+                height: 0,
+              ),
+              // sections screen column > (body) .
+              Expanded(
+                  child: snapshot.data == null || snapshot.data!.docs.isEmpty
+                      ? Container(
+                          child: const Center(
+                            child: Text('empty'),
+                          ),
+                        )
+                      : ListView.separated(
+                          itemCount: (filteredVacancies.length == 0
+                                  ? _vacancies
+                                  : filteredVacancies)
+                              .length,
+                          separatorBuilder: (context, index) => const Divider(
+                            indent: 90,
+                            endIndent: 20,
+                            thickness: 1,
+                          ),
+                          itemBuilder: (context, index) {
+                            // debugPrint(
+                            //     '1. from itembuilder ValueChanger.hasNotificationIcon= ${ValueChanger.hasNotification}');
+                            return jobVacanciesContainer(
+                                vacancy: (filteredVacancies.length == 0
+                                    ? _vacancies
+                                    : filteredVacancies)[index]);
+                          },
+                        ))
+            ],
+          );
+        },
+      ),
+    );
     //to test provider
     // body: Column(
     //   children: [Expanded(child: ClassOne())],
@@ -297,7 +297,8 @@ class _JobsScreenState extends State<JobsScreen> {
       required double fontSize,
       FontWeight? fontWeight,
       double? letterSpacing,
-      int? maxLines}) {
+      int? maxLines,
+      Color? color}) {
     return Column(
       children: [
         Text(
@@ -305,7 +306,8 @@ class _JobsScreenState extends State<JobsScreen> {
           style: TextStyle(
               fontSize: fontSize,
               fontWeight: fontWeight,
-              letterSpacing: letterSpacing),
+              letterSpacing: letterSpacing,
+              color: color),
           maxLines: maxLines,
         ),
         const SizedBox(
@@ -339,7 +341,7 @@ class _JobsScreenState extends State<JobsScreen> {
                           box.get(vacancy.createdAt.toIso8601String());
                       Vacancy _vacancyFromBox = Vacancy.fromMap(dataFromBox);
 
-                      print(_vacancyFromBox.toString());
+                      debugPrint(_vacancyFromBox.toString());
 
                       // ButtonValueChanger.favRecord =
                       //     !ButtonValueChanger.favRecord;
