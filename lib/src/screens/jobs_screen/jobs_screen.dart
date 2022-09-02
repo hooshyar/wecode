@@ -371,26 +371,19 @@ class _JobsScreenState extends State<JobsScreen> {
                   customeText(
                       name: vacancy.user.name,
                       fontSize: 017,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
                       letterSpacing: 0.4,
                       maxLines: 1),
                   customeText(
                       name: '${vacancy.title} • ${vacancy.type}',
-                      // name: 'gggggggggggggggggggggggggggggggggggggg',
                       fontSize: 014,
                       letterSpacing: 0.4,
                       maxLines: 2),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      // customeText(
-                      //   name: '\$$companyJobSalary ',
-                      //   fontSize: 17,
-                      //   fontWeight: FontWeight.w500,
-                      // ),
-                      customeText(name: vacancy.city, fontSize: 14, maxLines: 1)
-                    ],
-                  )
+                  customeText(
+                    name: vacancy.city,
+                    fontSize: 14,
+                    maxLines: 1,
+                  ),
                 ],
               ),
             ),

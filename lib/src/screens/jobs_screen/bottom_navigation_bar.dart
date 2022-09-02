@@ -43,7 +43,7 @@ class _CustomeBottomNavigationBarState
     return BottomNavigationBar(
       currentIndex: _selectedIndex!,
       selectedItemColor: Colors.white,
-      unselectedItemColor: Colors.white54,
+      unselectedItemColor: Colors.white70,
       backgroundColor: Colors.green,
 selectedLabelStyle: TextStyle(letterSpacing: 1.5),
       showSelectedLabels: true,
