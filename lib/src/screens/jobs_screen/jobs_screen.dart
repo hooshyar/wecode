@@ -12,6 +12,7 @@ import 'package:wecode/src/models/weCodeUser_data_model.dart';
 import 'package:wecode/src/providers/user_provider.dart';
 import 'package:wecode/src/screens/Job%20Screen/create_job_screen_view.dart';
 import 'package:wecode/src/screens/fav_screen/fav_screen.dart';
+import 'package:wecode/src/screens/jobs_screen/bottom_navigation_bar.dart';
 import 'package:wecode/src/screens/jobs_screen/button_value_changer.dart';
 import 'package:wecode/src/services/auth_service.dart';
 
@@ -266,6 +267,7 @@ class _JobsScreenState extends State<JobsScreen> {
           );
         },
       ),
+      bottomNavigationBar: const CustomeBottomNavigationBar(),
     );
     //to test provider
     // body: Column(

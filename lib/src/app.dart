@@ -15,21 +15,22 @@ class WeCodeApp extends StatelessWidget {
         theme: ThemeData(
           // brightness: Brightness.dark,
           fontFamily: GoogleFonts.roboto().fontFamily,
-          primarySwatch: Colors.red,
+          primarySwatch: Colors.green,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           textTheme: TextTheme(
             titleMedium: TextStyle(
                 fontSize: 22,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 fontFamily: GoogleFonts.roboto().fontFamily),
           ),
           appBarTheme: AppBarTheme(
-            color: Colors.red,
+            color: Colors.green,
             titleTextStyle: TextStyle(
               color: Colors.grey[800],
               fontSize: 26,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w500,
               fontFamily: GoogleFonts.roboto().fontFamily,
+              letterSpacing: 1,
             ),
           ),
           buttonTheme: Theme.of(context).buttonTheme.copyWith(
