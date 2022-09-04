@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:provider/provider.dart';
-import 'package:wecode/src/temp/number_provider.dart';
 
 class ClassOne extends StatelessWidget {
   const ClassOne({Key? key}) : super(key: key);
@@ -12,7 +8,7 @@ class ClassOne extends StatelessWidget {
     return Scaffold(
       body: Center(
           child: Column(
-        children: [
+        children: const [
           Text('the number'),
         ],
       )),

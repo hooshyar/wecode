@@ -1,9 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:wecode/src/common/widgets/loading_indicator.dart';
-import 'package:wecode/src/models/weCodeUser_data_model.dart';
 import 'package:wecode/src/providers/user_provider.dart';
 
 import 'package:wecode/src/screens/auth/login_screen.dart';
@@ -14,7 +14,7 @@ import 'package:wecode/widget/costume_button.dart';
 import 'package:wecode/widget/costume_textField.dart';
 
 class RegisterScreen extends StatefulWidget {
-  RegisterScreen({Key? key}) : super(key: key);
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -35,20 +35,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: isLoading == true
-          ? LoadingIndicator()
+          ? const LoadingIndicator()
           : SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Image.network(
                         'https://media.istockphoto.com/vectors/register-account-submit-access-login-password-username-internet-vector-id1281150061?k=20&m=1281150061&s=170667a&w=0&h=r2JoluPHXUIdKb2cNnvcwFg7BIIf-SrBDFdoU0fZBnc='),
-                    Align(
+                    const Align(
                       alignment: Alignment(-1, -1),
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 15.0),
+                        padding: EdgeInsets.only(left: 15.0),
                         child: Text(
                           'Register',
                           style: TextStyle(
@@ -57,34 +57,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.all(20),
+                      margin: const EdgeInsets.all(20),
                       child: Form(
                           child: Column(
                         children: [
                           CostumeTextField(
                             hint: 'User Name',
                             control: userNameController,
-                            icon: Icon(Icons.person),
+                            icon: const Icon(Icons.person),
                           ),
                           CostumeTextField(
                             hint: 'Email',
                             control: emailController,
-                            icon: Icon(Icons.alternate_email),
+                            icon: const Icon(Icons.alternate_email),
                           ),
                           CostumeTextField(
                             hint: 'Password',
                             control: passwordController,
-                            icon: Icon(Icons.lock_outline),
+                            icon: const Icon(Icons.lock_outline),
                           ),
                           CostumeTextField(
                             hint: 'Phone Number',
                             control: phoneNumberController,
-                            icon: Icon(Icons.phone),
+                            icon: const Icon(Icons.phone),
                           ),
                         ],
                       )),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     CostumeButton(
@@ -119,7 +119,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 isLoading = false;
                               });
 
-                              Get.to(() => CreateProfileScreen(
+                              Get.to(() => const CreateProfileScreen(
                                     isUpdate: false,
                                   ));
                             });
@@ -133,8 +133,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           // Navigator.of(context).push(MaterialPageRoute(builder:(context)=> CreateProfileScreen()));
                         });
                       },
-                      color: Color.fromARGB(255, 42, 146, 231),
-                      text: Text(
+                      color: const Color.fromARGB(255, 42, 146, 231),
+                      text: const Text(
                         'Register',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
@@ -143,8 +143,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 20.0),
                           child: Text(
                             "Already Have An Account ? ",
                             style: TextStyle(
@@ -161,8 +161,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             );
                           },
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 20.0),
+                          child: const Padding(
+                            padding: EdgeInsets.only(top: 20.0),
                             child: Text(
                               'Login',
                               style: TextStyle(
