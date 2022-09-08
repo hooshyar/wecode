@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 import 'package:wecode/src/common/strings.dart';
 import 'package:wecode/src/common/widgets/general_drop_down_widget.dart';
 import 'package:wecode/src/models/vacancy_data_model.dart';
 import 'package:wecode/src/models/weCodeUser_data_model.dart';
 import 'package:wecode/src/providers/user_provider.dart';
+import 'package:wecode/src/services/dynamic_links_service.dart';
 import 'package:wecode/src/services/firestore_service.dart';
 
 class CreateJobScreen extends StatefulWidget {
@@ -27,6 +29,7 @@ class deferent extends State<CreateJobScreen> {
   ];
 
   FireStoreService _fireStoreService = FireStoreService();
+  DynamicLinksService _dynamicLinksService = DynamicLinksService();
 
   List<String> typeList = ['Full Time', 'Part Time', 'Remote', 'Intern'];
 
@@ -158,7 +161,13 @@ class deferent extends State<CreateJobScreen> {
                   spaceBetweenHeaderAndInput(),
 
                   ElevatedButton.icon(
-                      onPressed: () {
+                      onPressed: () async {
+                        String _vacancyID = Uuid().v4();
+
+                        //to create a dynamic link for a job id
+                        Uri dynamicLink = await _dynamicLinksService
+                            .createDynamicLink(vacancyID: _vacancyID);
+
                         WeCodeUser? weCodeUser =
                             context.read<UserProvider>().weCodeUser;
                         if (weCodeUser != null) {
@@ -175,7 +184,9 @@ class deferent extends State<CreateJobScreen> {
                                   RequiredStrings.jobCategories.first,
                               createdAt: DateTime.now(),
                               expDate: DateTime.now().add(Duration(days: 15)),
-                              user: weCodeUser);
+                              dynamicLink: dynamicLink.toString(),
+                              user: weCodeUser,
+                              id: _vacancyID);
 
                           Get.defaultDialog(
                             title: 'values',

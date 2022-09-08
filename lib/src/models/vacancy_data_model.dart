@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:wecode/src/models/weCodeUser_data_model.dart';
 
 class Vacancy {
-  String type; //remote, intern, part-time, full-time
+  String type;
+  String id; //remote, intern, part-time, full-time
   String title;
   String description; //create a text editor for mark down
   String? responsibilities;
@@ -19,6 +20,7 @@ class Vacancy {
   Vacancy({
     required this.type,
     required this.title,
+    required this.id,
     required this.description,
     this.responsibilities,
     required this.org,
@@ -34,6 +36,7 @@ class Vacancy {
 
   Vacancy copyWith({
     String? type,
+    String? id,
     String? title,
     String? description,
     String? responsibilities,
@@ -54,6 +57,7 @@ class Vacancy {
       responsibilities: responsibilities ?? this.responsibilities,
       org: org ?? this.org,
       city: city ?? this.city,
+      id: id ?? this.id,
       category: category ?? this.category,
       upVote: upVote ?? this.upVote,
       downVote: downVote ?? this.downVote,
@@ -72,6 +76,7 @@ class Vacancy {
       'responsibilities': responsibilities,
       'org': org,
       'city': city,
+      'id': id,
       'category': category,
       'upVote': upVote,
       'downVote': downVote,
@@ -86,6 +91,7 @@ class Vacancy {
     return Vacancy(
       type: map['type'] ?? '',
       title: map['title'] ?? '',
+      id: map['id'] ?? 'no id',
       description: map['description'] ?? '',
       responsibilities: map['responsibilities'],
       org: map['org'] ?? '',
