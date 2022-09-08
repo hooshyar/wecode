@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:wecode/src/models/weCodeUser_data_model.dart';
 
+// the
 class Vacancy {
   String type;
   String id; //remote, intern, part-time, full-time

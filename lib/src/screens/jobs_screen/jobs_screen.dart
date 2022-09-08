@@ -267,7 +267,7 @@ class _JobsScreenState extends State<JobsScreen> {
           );
         },
       ),
-      bottomNavigationBar: const CustomeBottomNavigationBar(),
+      // bottomNavigationBar: const CustomeBottomNavigationBar(),
     );
     //to test provider
     // body: Column(

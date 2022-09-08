@@ -8,6 +8,7 @@ import 'package:wecode/src/models/weCodeUser_data_model.dart';
 import 'package:wecode/src/providers/user_provider.dart';
 import 'package:wecode/src/screens/auth/login_screen.dart';
 import 'package:wecode/src/screens/jobs_screen/jobs_screen.dart';
+import 'package:wecode/src/screens/navigator_screen.dart';
 import 'package:wecode/src/services/firestore_service.dart';
 
 class HandlerScreen extends StatefulWidget {
@@ -58,7 +59,7 @@ class _HandlerScreenState extends State<HandlerScreen> {
                   //TODO: save the device token to user/device_tokens
 
                 }
-                return const JobsScreen();
+                return const NavigatorScreen();
               });
         },
       ),

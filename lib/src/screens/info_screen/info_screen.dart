@@ -14,7 +14,6 @@ class InfoScreen extends StatelessWidget {
         color: Colors.grey,
         child: const Center(child: Text('Info')),
       ),
-      bottomNavigationBar: const CustomeBottomNavigationBar(),
     );
   }
 }

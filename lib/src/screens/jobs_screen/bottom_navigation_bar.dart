@@ -21,6 +21,8 @@ class _CustomeBottomNavigationBarState
     super.initState();
   }
 
+  List<Widget> screens = [FavoritesScreen(), JobsScreen(), InfoScreen()];
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -45,7 +47,7 @@ class _CustomeBottomNavigationBarState
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.white70,
       backgroundColor: Colors.green,
-selectedLabelStyle: TextStyle(letterSpacing: 1.5),
+      selectedLabelStyle: TextStyle(letterSpacing: 1.5),
       showSelectedLabels: true,
       showUnselectedLabels: false,
       items: const <BottomNavigationBarItem>[

@@ -14,7 +14,9 @@ class FavoritesScreen extends StatelessWidget {
         title: const Text('Favorites', style: TextStyle(color: Colors.white)),
         actions: const <Widget>[
           Icon(Icons.favorite),
-          SizedBox(width: 20,)
+          SizedBox(
+            width: 20,
+          )
         ],
       ),
       body: Container(
@@ -41,7 +43,6 @@ class FavoritesScreen extends StatelessWidget {
           },
         ),
       ),
-      bottomNavigationBar: const CustomeBottomNavigationBar(),
     );
   }
 }
