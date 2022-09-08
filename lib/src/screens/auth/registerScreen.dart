@@ -61,22 +61,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: Form(
                           child: Column(
                         children: [
-                          CostumeTextField(
+                          CustomTextField(
                             hint: 'User Name',
                             control: userNameController,
                             icon: const Icon(Icons.person),
                           ),
-                          CostumeTextField(
+                          CustomTextField(
                             hint: 'Email',
                             control: emailController,
                             icon: const Icon(Icons.alternate_email),
                           ),
-                          CostumeTextField(
+                          CustomTextField(
                             hint: 'Password',
                             control: passwordController,
                             icon: const Icon(Icons.lock_outline),
                           ),
-                          CostumeTextField(
+                          CustomTextField(
                             hint: 'Phone Number',
                             control: phoneNumberController,
                             icon: const Icon(Icons.phone),
@@ -88,7 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 15,
                     ),
                     CostumeButton(
-                      onPressedd: () async {
+                      onPressed: () async {
                         setState(() {
                           isLoading = true;
                         });

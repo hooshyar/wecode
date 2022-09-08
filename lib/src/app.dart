@@ -13,6 +13,7 @@ class WeCodeApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'WeCode',
         theme: ThemeData(
+          primaryColor: Colors.green,
           // brightness: Brightness.dark,
           fontFamily: GoogleFonts.roboto().fontFamily,
           primarySwatch: Colors.green,

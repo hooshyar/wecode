@@ -75,7 +75,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
               child: Form(
                 child: Column(
                   children: [
-                    CostumeTextField(
+                    CustomTextField(
                       hint: 'Email',
                       control: emailController,
                       icon: const Icon(Icons.alternate_email),
@@ -88,7 +88,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
               height: 15,
             ),
             CostumeButton(
-              onPressedd: () {
+              onPressed: () {
                 auth.forgetPassword(email: emailController.text);
 
                 Navigator.push(

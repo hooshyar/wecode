@@ -64,12 +64,12 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
               child: Form(
                 child: Column(
                   children: [
-                    CostumeTextField(
+                    CustomTextField(
                       hint: 'New Password',
                       control: newPasswordController,
                       icon: const Icon(Icons.lock_outlined),
                     ),
-                    CostumeTextField(
+                    CustomTextField(
                       hint: 'Confirm your Password',
                       control: confirmPasswordController,
                       icon: const Icon(Icons.lock_outlined),
@@ -82,7 +82,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
               height: 15,
             ),
             CostumeButton(
-              onPressedd: () {},
+              onPressed: () {},
               color: const Color.fromARGB(255, 42, 146, 231),
               text: const Text(
                 'Submit',

@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wecode/src/common/style/style.dart';
 import 'package:wecode/src/screens/auth/forgot_pass_screen.dart';
 import 'package:wecode/src/screens/auth/handler_screen.dart';
 import 'package:wecode/src/screens/auth/registerScreen.dart';
@@ -25,15 +27,23 @@ class LoginScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Image.network(
-                  'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.freepik.com%2Ffree-vector%2Fmobile-login-concept-illustration_114360-83.jpg&f=1&nofb=1'),
+              Container(
+                padding: EdgeInsets.all(20),
+                height: 300,
+                child: CachedNetworkImage(
+                  imageUrl:
+                      'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.freepik.com%2Ffree-vector%2Fmobile-login-concept-illustration_114360-83.jpg&f=1&nofb=1',
+                  placeholder: (context, url) => Container(),
+                  fit: BoxFit.cover,
+                ),
+              ),
               const Align(
                 alignment: Alignment(-1, -1),
                 child: Padding(
                   padding: EdgeInsets.only(left: 15.0),
                   child: Text(
                     'Login',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                   ),
                 ),
               ),
@@ -42,12 +52,12 @@ class LoginScreen extends StatelessWidget {
                 child: Form(
                     child: Column(
                   children: [
-                    CostumeTextField(
+                    CustomTextField(
                       hint: 'Email',
                       control: emailController,
                       icon: const Icon(Icons.alternate_email),
                     ),
-                    CostumeTextField(
+                    CustomTextField(
                       hint: 'Password',
                       control: passwordController,
                       icon: const Icon(Icons.lock_outline),
@@ -64,15 +74,12 @@ class LoginScreen extends StatelessWidget {
                             ),
                           );
                         },
-                        child: const Padding(
-                          padding: EdgeInsets.only(top: 10.0),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 20.0),
                           child: Text(
                             'Forgot Password ?',
-                            style: TextStyle(
-                              color:  Color.fromARGB(255, 42, 146, 231),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
+                            style: GeneralStyle.additionTextStyle
+                                .copyWith(fontSize: 14),
                           ),
                         ),
                       ),
@@ -84,7 +91,7 @@ class LoginScreen extends StatelessWidget {
                 height: 15,
               ),
               CostumeButton(
-                onPressedd: () async {
+                onPressed: () async {
                   //First step auth with firebase auth
                   await authService
                       .signInWithEmailAndPassword(
@@ -114,28 +121,28 @@ class LoginScreen extends StatelessWidget {
 
                           );
                 },
-                color: const Color.fromARGB(255, 42, 146, 231),
+                color: Colors.green,
                 text: const Text(
                   'Login',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
               const SizedBox(
                 height: 15,
               ),
-              CostumeButton(
-                onPressedd: () {
-                  debugPrint('Login');
-                },
-                color: const Color.fromARGB(255, 211, 211, 211),
-                text: const Text(
-                  'Login with Google',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w200,
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 68, 68, 68)),
-                ),
-              ),
+              // CostumeButton(
+              //   onPressed: () {
+              //     debugPrint('Login');
+              //   },
+              //   color: const Color.fromARGB(255, 211, 211, 211),
+              //   text: const Text(
+              //     'Login with Google',
+              //     style: TextStyle(
+              //         fontWeight: FontWeight.w200,
+              //         fontSize: 20,
+              //         color: Color.fromARGB(255, 68, 68, 68)),
+              //   ),
+              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -144,7 +151,7 @@ class LoginScreen extends StatelessWidget {
                     child: Text(
                       "Don't Have An Account ? ",
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          TextStyle(fontWeight: FontWeight.w300, fontSize: 14),
                     ),
                   ),
                   GestureDetector(
@@ -152,19 +159,16 @@ class LoginScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (BuildContext context) => const RegisterScreen(),
+                          builder: (BuildContext context) =>
+                              const RegisterScreen(),
                         ),
                       );
                     },
-                    child: const Padding(
+                    child: Padding(
                       padding: EdgeInsets.only(top: 20.0),
                       child: Text(
                         'Register',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 21, 116, 224),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
+                        style: GeneralStyle.additionTextStyle,
                       ),
                     ),
                   ),

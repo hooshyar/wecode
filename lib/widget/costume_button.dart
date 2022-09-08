@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class CostumeButton extends StatelessWidget {
   const CostumeButton({
     Key? key,
-    required this.onPressedd,
+    required this.onPressed,
     required this.color,
     required this.text,
   }) : super(key: key);
 
   final Text text;
-  final onPressedd;
+  final onPressed;
   final Color color;
 
   @override
@@ -18,11 +18,12 @@ class CostumeButton extends StatelessWidget {
       width: 350,
       height: 50,
       child: ElevatedButton(
-        onPressed: onPressedd,
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          primary: color,
+          backgroundColor: color,
+          textStyle: TextStyle(fontSize: 12),
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
         child: text,
       ),

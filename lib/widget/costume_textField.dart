@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CostumeTextField extends StatelessWidget {
-  const CostumeTextField({
+class CustomTextField extends StatelessWidget {
+  const CustomTextField({
     Key? key,
     required this.hint,
     required this.icon,
@@ -15,11 +15,12 @@ class CostumeTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller : control,
+      controller: control,
+      style: const TextStyle(fontSize: 16),
       decoration: InputDecoration(
         icon: icon,
         hintText: hint,
-        hintStyle: const TextStyle(fontSize: 18 , fontWeight: FontWeight.w400),
+        hintStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
       ),
     );
   }
