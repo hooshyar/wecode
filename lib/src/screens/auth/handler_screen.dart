@@ -2,21 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:wecode/src/common/widgets/loading_indicator.dart';
 import 'package:wecode/src/models/weCodeUser_data_model.dart';
 import 'package:wecode/src/providers/user_provider.dart';
-import 'package:wecode/src/screens/Job%20Screen/create_job_screen_view.dart';
 import 'package:wecode/src/screens/auth/login_screen.dart';
-import 'package:wecode/src/screens/create_profile_screen/create_profile.dart';
 import 'package:wecode/src/screens/jobs_screen/jobs_screen.dart';
 import 'package:wecode/src/services/firestore_service.dart';
 
 class HandlerScreen extends StatefulWidget {
-  HandlerScreen({Key? key}) : super(key: key);
+  const HandlerScreen({Key? key}) : super(key: key);
 
   @override
   State<HandlerScreen> createState() => _HandlerScreenState();
@@ -40,11 +35,11 @@ class _HandlerScreenState extends State<HandlerScreen> {
         builder: (context, snapshot) {
           //TODO:  check if loading
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return LoadingIndicator();
+            return const LoadingIndicator();
           } else if (snapshot.data == null) {
             return LoginScreen();
           } else if (snapshot.hasError) {
-            return Center(child: Text('error'));
+            return const Center(child: Text('error'));
           }
 
           return FutureBuilder<WeCodeUser>(
@@ -52,7 +47,7 @@ class _HandlerScreenState extends State<HandlerScreen> {
               builder: (context, snapshotFromFuture) {
                 if (snapshotFromFuture.connectionState ==
                     ConnectionState.waiting) {
-                  return LoadingIndicator();
+                  return const LoadingIndicator();
                 } else if (snapshotFromFuture.hasError) {
                   return Center(
                     child: Text(snapshotFromFuture.error.toString()),
@@ -63,7 +58,7 @@ class _HandlerScreenState extends State<HandlerScreen> {
                   //TODO: save the device token to user/device_tokens
 
                 }
-                return JobsScreen();
+                return const JobsScreen();
               });
         },
       ),

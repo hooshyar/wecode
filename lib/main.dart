@@ -6,9 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:wecode/src/app.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:wecode/src/models/vacancy_data_model.dart';
 import 'package:wecode/src/providers/user_provider.dart';
-import 'package:wecode/src/services/push_notifications_service.dart';
 import 'package:wecode/src/temp/number_provider.dart';
 import 'firebase_options.dart';
 
@@ -34,10 +32,10 @@ void main() async {
   final IOSInitializationSettings initializationSettingsIOS =
       IOSInitializationSettings(
           onDidReceiveLocalNotification: (id, title, body, payload) {
-    print('on foreground : ' + id.toString());
-    print(title);
-    print(body);
-    print(payload);
+    debugPrint('on foreground : $id');
+    debugPrint(title);
+    debugPrint(body);
+    debugPrint(payload);
   });
 
   final InitializationSettings initializationSettings = InitializationSettings(
@@ -46,21 +44,21 @@ void main() async {
   );
 
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onSelectNotification: (value) => print('tapped' + value.toString()));
+      onSelectNotification: (value) => debugPrint('tapped$value'));
   final String? fcmToken = await FirebaseMessaging.instance.getToken();
-  print("FCM" + ':' + (fcmToken ?? 'no token'));
+  debugPrint("FCM" ':' + (fcmToken ?? 'no token'));
 
   Future<void> _firebaseMessagingBackgroundHandler(
       RemoteMessage message) async {
-    print('Handling a background message ${message.messageId}');
+    debugPrint('Handling a background message ${message.messageId}');
   }
 
   FirebaseMessaging.onBackgroundMessage(
       (message) => _firebaseMessagingBackgroundHandler(message));
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print('Got a message whilst in the foreground!');
-    print('Message data: ${message.notification}');
+    debugPrint('Got a message whilst in the foreground!');
+    debugPrint('Message data: ${message.notification}');
     if (message.notification != null) {
       // flutterLocalNotificationsPlugin.show(
       //     message.hashCode,
@@ -82,7 +80,7 @@ void main() async {
     }
 
     if (message.notification != null) {
-      print('Message also contained a notification: ${message.notification}');
+      debugPrint('Message also contained a notification: ${message.notification}');
     }
   });
 
@@ -92,7 +90,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => NumberProvider()),
         ChangeNotifierProvider(create: (context) => UserProvider())
       ],
-      child: WeCodeApp(),
+      child: const WeCodeApp(),
     ),
   );
 }

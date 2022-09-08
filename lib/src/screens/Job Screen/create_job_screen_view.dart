@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +11,7 @@ import 'package:wecode/src/services/dynamic_links_service.dart';
 import 'package:wecode/src/services/firestore_service.dart';
 
 class CreateJobScreen extends StatefulWidget {
-  CreateJobScreen({Key? key}) : super(key: key);
+  const CreateJobScreen({Key? key}) : super(key: key);
 
   @override
   State<CreateJobScreen> createState() => deferent();
@@ -58,7 +57,7 @@ class deferent extends State<CreateJobScreen> {
             IconButton(
               color: Colors.red,
               onPressed: () {},
-              icon: Icon(Icons.save),
+              icon: const Icon(Icons.save),
             )
           ]),
       body: Center(
@@ -202,11 +201,11 @@ class deferent extends State<CreateJobScreen> {
                                         await _fireStoreService
                                             .addNewVacancy(_vacancy)
                                             .then((value) {
-                                          debugPrint(" ref id  :  " + value.id);
+                                          debugPrint(" ref id  :  ${value.id}");
                                           Navigator.of(context).pop();
                                         });
                                       },
-                                      child: Text('Are you sure? '))
+                                      child: const Text('Are you sure? '))
                                 ],
                               ),
                             ),
@@ -216,8 +215,8 @@ class deferent extends State<CreateJobScreen> {
                               'You don\'t have the privileges to do that ');
                         }
                       },
-                      icon: Icon(Icons.add),
-                      label: Text('Add a New Vacancy')),
+                      icon: const Icon(Icons.add),
+                      label: const Text('Add a New Vacancy')),
 
                   ///
                   ///
@@ -234,7 +233,7 @@ class deferent extends State<CreateJobScreen> {
   // this is the style of header text
   // Have Font Weight Bold and font Size 24
   TextStyle headerTextStyle() {
-    return TextStyle(
+    return const TextStyle(
       color: Colors.red,
       fontWeight: FontWeight.bold,
       fontSize: 20,
@@ -244,7 +243,7 @@ class deferent extends State<CreateJobScreen> {
   // Information Header Text Style [ City , Category , ... etc]
   // Font Weight is BOLD.
   TextStyle informationHeaderOfInputsTextStyle() {
-    return TextStyle(
+    return const TextStyle(
       fontWeight: FontWeight.bold,
     );
   }
@@ -296,7 +295,7 @@ class deferent extends State<CreateJobScreen> {
   // this is the header of the text field and drop down button.
   Widget headerInformationOfInputs({required String name}) {
     return Container(
-      margin: EdgeInsets.only(right: 290, left: 24),
+      margin: const EdgeInsets.only(right: 290, left: 24),
       child: Text(
         name,
         style: informationHeaderOfInputsTextStyle(),
@@ -306,14 +305,14 @@ class deferent extends State<CreateJobScreen> {
 
   // space between the header and input widget
   Widget spaceBetweenHeaderAndInput() {
-    return SizedBox(
+    return const SizedBox(
       height: 15,
     );
   }
 
   // space between 2 input widget
   Widget spaceBetweenTwoInput() {
-    return SizedBox(
+    return const SizedBox(
       height: 40,
     );
   }
@@ -326,10 +325,10 @@ class deferent extends State<CreateJobScreen> {
       child: TextField(
         controller: textController,
         decoration: InputDecoration(
-            labelStyle: TextStyle(color: Colors.red),
+            labelStyle: const TextStyle(color: Colors.red),
             label: Text(name),
-            focusedBorder:
-                OutlineInputBorder(borderSide: BorderSide(color: Colors.red))),
+            focusedBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.red))),
       ),
     );
   }

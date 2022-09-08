@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class GeneralDropDownButton extends StatelessWidget {
   GeneralDropDownButton(
@@ -15,14 +13,14 @@ class GeneralDropDownButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       child: DropdownButtonFormField<String>(
           decoration: InputDecoration(
-              focusedBorder: OutlineInputBorder(
+              focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.green)),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
+                  borderSide: const BorderSide(
                     color: Colors.green,
                     width: 2,
                   ))),
@@ -35,7 +33,7 @@ class GeneralDropDownButton extends StatelessWidget {
                     style:
                         // Style of text inside Drop Down Button
 
-                        TextStyle(
+                        const TextStyle(
                       fontSize: 15,
                     ),
                   )))

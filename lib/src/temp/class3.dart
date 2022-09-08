@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import 'package:wecode/src/temp/number_provider.dart';
 
@@ -18,16 +16,16 @@ class ClassThree extends StatelessWidget {
     return Scaffold(
       body: Center(
           child: Container(
-        margin: EdgeInsets.all(20),
+        margin: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('consumer'),
+            const Text('consumer'),
             Consumer<NumberProvider>(
                 builder: (BuildContext context, value, __) =>
                     Text('${value.theNumber}')),
-            Divider(),
+            const Divider(),
             TextField(
               controller: _numberController,
             ),
@@ -37,7 +35,7 @@ class ClassThree extends StatelessWidget {
                       .read<NumberProvider>()
                       .changeTheNumber(int.parse(_numberController.text));
                 },
-                child: Text('update number'))
+                child: const Text('update number'))
           ],
         ),
       )),

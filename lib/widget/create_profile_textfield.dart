@@ -20,7 +20,7 @@ class CustomTextFieldForm extends StatelessWidget {
           child: TextFormField(
             validator: validator,
             controller: controller,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               filled: true,
               fillColor: Color(0xffF6FAFB),
